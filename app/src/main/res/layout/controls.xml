@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:text="Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switching_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="TEST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_button"
+        android:layout_above="@+id/switching_button"
+        android:layout_alignStart="@+id/switching_button"
+        android:layout_marginBottom="35dp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <SeekBar
+        android:id="@+id/servo"
+        android:layout_width="400dp"
+        android:rotation="90"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

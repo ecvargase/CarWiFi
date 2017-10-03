@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@drawable/f1"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.janis.sac.carwifi.MainActivity">
+
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/joys"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        custom:JV_backgroundColor="#50180C8B"
+        custom:JV_borderColor="#2F1EDF"
+        custom:JV_borderWidth="4dp"
+        custom:JV_buttonColor="#5290D2"
+        custom:JV_buttonSizeRatio="15%"
+        custom:JV_fixedCenter="false"
+        android:layout_alignParentBottom="true"/>
+
+    <me.rorschach.library.ShaderSeekArc
+        android:id="@+id/seek_arc"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        app:arcWidthRate="0.5"
+        app:endAngle="45"
+        app:endColor="0xFFCC151C"
+        app:lineColor="0xff33B5E5"
+        app:markColor="0xff33B5E5"
+        app:markSize="30"
+        app:progress="24"
+        app:progressTextColor="0xffFFBB33"
+        app:progressTextSize="35"
+        app:showMark="true"
+        app:showProgress="true"
+        app:startAngle="-225"
+        app:startColor="0xFFFFF314" />
+
+</RelativeLayout>
