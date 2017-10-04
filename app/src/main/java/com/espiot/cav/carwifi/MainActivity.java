@@ -1,16 +1,19 @@
-package com.carwifi.cav.carwifi;
+package com.espiot.cav.carwifi;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
-import com.carwifi.cav.carwifi.ui.Controls;
+import com.espiot.cav.carwifi.ui.Controls;
 
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by camilovargas on 11/09/17.
+ */
 
+public class MainActivity extends AppCompatActivity {
 
     private Controls controls;
 
@@ -22,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initFragments();
     }
-
 
     public void initFragments() {
         if (controls == null) {

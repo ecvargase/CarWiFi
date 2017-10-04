@@ -1,4 +1,4 @@
-package com.carwifi.cav.carwifi.ui;
+package com.espiot.cav.carwifi.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
-import com.carwifi.cav.carwifi.R;
-import com.carwifi.cav.carwifi.network.Providers;
+import com.espiot.cav.carwifi.R;
+import com.espiot.cav.carwifi.network.Providers;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 import me.rorschach.library.ShaderSeekArc;
 import timber.log.Timber;
 
 /**
- * Created by camilo on 11/09/17.
+ * Created by camilovargas on 11/09/17.
  */
 
 public class Controls extends Fragment {
@@ -49,7 +49,9 @@ public class Controls extends Fragment {
     }
 
     public void setupStateDirection() {
-        toggle = (ToggleButton) view.findViewById(R.id.toggleButton);
+        if (toggle == null) {
+            toggle = (ToggleButton) view.findViewById(R.id.toggleButton);
+        }
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (seekArc.getProgress() > 0) {
@@ -67,7 +69,6 @@ public class Controls extends Fragment {
             }
         });
     }
-
 
     private void setupJoyStickDirection() {
         if (direction == null) {
