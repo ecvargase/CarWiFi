@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Saraujoc-smart_switch-a670041ef0d2.iml" filepath="$PROJECT_DIR$/Saraujoc-smart_switch-a670041ef0d2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SmartSwitch.iml" filepath="$PROJECT_DIR$/SmartSwitch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CarWiFi.iml" filepath="$PROJECT_DIR$/CarWiFi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -3,12 +3,14 @@ package com.janis.sac.carwifi;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 
+import io.github.controlwear.virtual.joystick.android.JoystickView;
+import me.rorschach.library.ShaderSeekArc;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,131 +22,112 @@ import retrofit2.Response;
 public class Controls extends Fragment {
 
     private ApiService service;
-    final String led1 = "on";
-    final String led2 = "off";
-    boolean curled = false;
+
 
     Network network = new Network();
+    private View view;
+
+    public static Controls newInstance() {
+        Bundle args = new Bundle();
+        Controls fragment = new Controls();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        setupInitialsControls();
+        view = inflater.inflate(R.layout.controls, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         service = network.ledService();
-        return inflater.inflate(R.layout.controls, container, false);
+        setupJoyStickSpeed();
+        setupJoyStickDirection();
+        return view;
 
     }
 
-    public void setupInitialsControls() {
-        getActivity().findViewById(R.id.switching_button).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        curled = !curled;
-                        Log.i("Current Led", String.valueOf(curled));
-                        String led;
-                        if (curled) {
-                            led = led1;
-                        } else {
-                            led = led2;
-                        }
-                        Call<String> call = service.getLED(led);
-                        call.enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                Log.d("LED", "response successful message " + response.message());
-                            }
+    private void setupJoyStickDirection() {
+        JoystickView direction = (JoystickView) view.findViewById(R.id.joys);
+        direction.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
 
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-                                Log.e("LED", "response failed code , RETROFIT ERROR");
-                            }
-                        });
-                    }
+                if (angle == 0 && strength == 0) {
+                    setupServo(90);
                 }
-        );
+                if (0 < angle && angle <= 180) {
+                    setupServo(angle);
+                }
+                if (180 < angle && angle <= 359) {
+                    int currentAngle = 180 - (angle - 180);
+                    setupServo(currentAngle);
+                }
+                Log.d("Strength : ", String.valueOf(strength));
+                Log.d("angle : ", String.valueOf(angle));
+            }
+        });
+    }
 
-        SeekBar seekBar = (SeekBar) getActivity().findViewById(R.id.seekBar);
-        seekBar.setMax(1000);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    private void setupJoyStickSpeed() {
+        ShaderSeekArc seekArc = (ShaderSeekArc) view.findViewById(R.id.seek_arc);
+        seekArc.setStartValue(0);
+        seekArc.setEndValue(100);
+        seekArc.setProgress(0);
+        seekArc.setOnSeekArcChangeListener(new ShaderSeekArc.OnSeekArcChangeListener() {
+
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.d("ProgressChangedStart  ", String.valueOf(progress));
-                Call<String> call = service.getPWM(String.valueOf(progress));
-                call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("LED", "response successful message " + response.message());
-                    }
+            public void onProgressChanged(ShaderSeekArc seekArc, float progress) {
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.e("LED", "response failed code , RETROFIT ERROR");
-                    }
-                });
+                int currentProgress = (int) progress;
+                Log.d("progress : ", String.valueOf(currentProgress));
+                setupPWM(currentProgress * 10);
 
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(ShaderSeekArc seekArc) {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(ShaderSeekArc seekArc) {
+                setupPWM(0);
+//                seekArc.setProgress(0);
 
             }
         });
+    }
 
 
-        SeekBar servo = (SeekBar) getActivity().findViewById(R.id.servo);
-        servo.setMax(180);
-        servo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    public void setupServo(int progress) {
+
+        Call<String> call = service.getServo(String.valueOf(progress));
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.d("ProgressChangedStart  ", String.valueOf(progress));
-                Call<String> call = service.getServo(String.valueOf(progress));
-                call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("LED", "response successful message " + response.message());
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.e("LED", "response failed code , RETROFIT ERROR");
-                    }
-                });
-
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("LED", "response successful message " + response.message());
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("LED", "response failed code , RETROFIT ERROR");
             }
         });
+    }
 
-        getActivity().findViewById(R.id.test_button).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
 
-                        Call<String> call = service.getLED("off");
-                        call.enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                Log.d("LED", "response successful message " + response.message());
-                            }
+    public void setupPWM(int progress) {
 
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-                                Log.e("LED", "response failed code , RETROFIT ERROR");
-                            }
-                        });
-                    }
-                }
-        );
+        Call<String> call = service.getPWM(String.valueOf(progress));
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("LED", "response successful message " + response.message());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("LED", "response failed code , RETROFIT ERROR");
+            }
+        });
     }
 }
