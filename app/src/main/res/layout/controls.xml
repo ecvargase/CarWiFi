@@ -12,7 +12,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.espiot.cav.carwifi.MainActivity">
 
-
     <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/joys"
         android:layout_width="wrap_content"
@@ -51,9 +50,9 @@
         android:id="@+id/toggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ToggleButton"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="242dp" />
+        android:layout_marginTop="242dp"
+        android:text="ToggleButton" />
 
 </RelativeLayout>

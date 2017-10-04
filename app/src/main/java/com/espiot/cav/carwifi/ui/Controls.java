@@ -30,6 +30,7 @@ public class Controls extends Fragment {
     private Providers providers = new Providers();
 
     public static Controls newInstance() {
+
         Bundle args = new Bundle();
         Controls fragment = new Controls();
         fragment.setArguments(args);
@@ -39,9 +40,9 @@ public class Controls extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.controls, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-
         setupJoyStickSpeed();
         setupJoyStickDirection();
         setupStateDirection();
@@ -49,6 +50,7 @@ public class Controls extends Fragment {
     }
 
     public void setupStateDirection() {
+
         if (toggle == null) {
             toggle = (ToggleButton) view.findViewById(R.id.toggleButton);
         }
@@ -71,6 +73,7 @@ public class Controls extends Fragment {
     }
 
     private void setupJoyStickDirection() {
+
         if (direction == null) {
             direction = (JoystickView) view.findViewById(R.id.joys);
         }
@@ -95,6 +98,7 @@ public class Controls extends Fragment {
     }
 
     private void setupJoyStickSpeed() {
+
         if (seekArc == null) {
             seekArc = (ShaderSeekArc) view.findViewById(R.id.seek_arc);
         }
@@ -102,14 +106,12 @@ public class Controls extends Fragment {
         seekArc.setEndValue(100);
         seekArc.setProgress(0);
         seekArc.setOnSeekArcChangeListener(new ShaderSeekArc.OnSeekArcChangeListener() {
-
             @Override
             public void onProgressChanged(ShaderSeekArc seekArc, float progress) {
 
                 int currentProgress = (int) progress;
                 Timber.d(String.format("progress : %s", String.valueOf(currentProgress)));
                 providers.setupPWM(currentProgress * 10);
-
             }
 
             @Override
@@ -120,7 +122,6 @@ public class Controls extends Fragment {
             public void onStopTrackingTouch(ShaderSeekArc seekArc) {
                 providers.setupPWM(0);
                 seekArc.setProgress(0);
-
             }
         });
     }

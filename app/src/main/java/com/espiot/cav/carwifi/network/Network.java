@@ -1,5 +1,7 @@
 package com.espiot.cav.carwifi.network;
 
+import com.espiot.cav.carwifi.common.Config;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,6 +16,7 @@ import timber.log.Timber;
 class Network {
 
     private void setupOkhttpBuilder(OkHttpClient.Builder builder) {
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(
                 new HttpLoggingInterceptor.Logger() {
                     @Override
@@ -25,14 +28,14 @@ class Network {
         builder.addInterceptor(interceptor);
     }
 
-
     ApiService apiServices() {
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         setupOkhttpBuilder(builder);
         OkHttpClient client = builder.build();
         Retrofit.Builder retrofitBuilder = new Retrofit
                 .Builder()
-                .baseUrl("http://192.168.4.1/")
+                .baseUrl(Config.baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client);

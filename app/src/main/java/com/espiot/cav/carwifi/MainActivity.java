@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         Timber.plant(new Timber.DebugTree());
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initFragments() {
+
         if (controls == null) {
             controls = Controls.newInstance();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

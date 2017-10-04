@@ -28,13 +28,14 @@ public class Providers {
         observableDefaultString(reverse);
     }
 
-
     public void setupServo(int progress) {
+
         Observable<String> servo = service.getServo(String.valueOf(progress));
         observableDefaultString(servo);
     }
 
     private void observableDefaultString(Observable<String> observable) {
+
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<String>() {
