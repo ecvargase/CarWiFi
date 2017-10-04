@@ -16,7 +16,4 @@ public class LedRes {
         return res;
     }
 
-    public LedRes(String res) {
-        this.res = res;
-    }
 }

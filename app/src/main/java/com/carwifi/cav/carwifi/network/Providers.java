@@ -1,10 +1,9 @@
 package com.carwifi.cav.carwifi.network;
 
-import android.util.Log;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by camilovargas on 3/10/17.
@@ -13,7 +12,7 @@ import retrofit2.Response;
 public class Providers {
 
     private Network network = new Network();
-    private ApiService service = network.ledService();
+    private ApiService service = network.apiServices();
 
 
     public void setupPWM(int progress) {
@@ -22,12 +21,12 @@ public class Providers {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("LED", "response successful message " + response.message());
+                Timber.d(String.format("response successful message %s", response.message()));
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("LED", "response failed code , RETROFIT ERROR");
+                Timber.e("response failed code , RETROFIT ERROR");
             }
         });
     }
@@ -38,12 +37,12 @@ public class Providers {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("LED", "response successful message " + response.message());
+                Timber.d(String.format("response successful message %s", response.message()));
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("LED", "response failed code , RETROFIT ERROR");
+                Timber.e("response failed code , RETROFIT ERROR");
             }
         });
     }
@@ -55,12 +54,12 @@ public class Providers {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("LED", "response successful message " + response.message());
+                Timber.d(String.format("response successful message %s", response.message()));
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("LED", "response failed code , RETROFIT ERROR");
+                Timber.e("response failed code , RETROFIT ERROR");
             }
         });
     }

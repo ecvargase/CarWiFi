@@ -1,11 +1,10 @@
 package com.carwifi.cav.carwifi.network;
 
-import android.util.Log;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by camilo on 11/09/17.
@@ -18,14 +17,14 @@ public class Network {
                 new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
-                        Log.i("OkHttp --> ", message);
+                        Timber.i(String.format("OkHttp --> %s", message));
                     }
                 });
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addInterceptor(interceptor);
     }
 
-    public ApiService ledService() {
+    public ApiService apiServices() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         setupOkhttpBuilder(builder);
         OkHttpClient client = builder.build();

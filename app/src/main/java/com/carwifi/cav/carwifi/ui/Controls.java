@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,11 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import com.carwifi.cav.carwifi.R;
-import com.carwifi.cav.carwifi.network.ApiService;
-import com.carwifi.cav.carwifi.network.Network;
 import com.carwifi.cav.carwifi.network.Providers;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 import me.rorschach.library.ShaderSeekArc;
+import timber.log.Timber;
 
 /**
  * Created by camilo on 11/09/17.
@@ -25,10 +23,6 @@ import me.rorschach.library.ShaderSeekArc;
 
 public class Controls extends Fragment {
 
-    private ApiService service;
-
-
-    Network network = new Network();
     private View view;
     private ToggleButton toggle;
     private JoystickView direction;
@@ -55,15 +49,20 @@ public class Controls extends Fragment {
     }
 
     public void setupStateDirection() {
-        if (toggle == null) {
-            toggle = (ToggleButton) view.findViewById(R.id.toggleButton);
-        }
+        toggle = (ToggleButton) view.findViewById(R.id.toggleButton);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (seekArc.getProgress() > 0) {
+                    seekArc.setProgress(0L);
+                    providers.setupPWM(0);
+                    Timber.d("Set progress 0");
+                }
                 if (isChecked) {
-                    providers.setupReverse(String.valueOf(isChecked));
+                    Timber.d(String.format("Reverse %s", String.valueOf(true)));
+                    providers.setupReverse(String.valueOf(true));
                 } else {
-                    providers.setupReverse(String.valueOf(isChecked));
+                    providers.setupReverse(String.valueOf(false));
+                    Timber.d(String.format("Reverse %s", String.valueOf(false)));
                 }
             }
         });
@@ -88,8 +87,8 @@ public class Controls extends Fragment {
                     int currentAngle = 180 - (angle - 180);
                     providers.setupServo(currentAngle);
                 }
-                Log.d("Strength : ", String.valueOf(strength));
-                Log.d("angle : ", String.valueOf(angle));
+                Timber.d(String.format("Strength : %s", String.valueOf(strength)));
+                Timber.d(String.format("angle : %s", String.valueOf(angle)));
             }
         });
     }
@@ -107,7 +106,7 @@ public class Controls extends Fragment {
             public void onProgressChanged(ShaderSeekArc seekArc, float progress) {
 
                 int currentProgress = (int) progress;
-                Log.d("progress : ", String.valueOf(currentProgress));
+                Timber.d(String.format("progress : %s", String.valueOf(currentProgress)));
                 providers.setupPWM(currentProgress * 10);
 
             }
