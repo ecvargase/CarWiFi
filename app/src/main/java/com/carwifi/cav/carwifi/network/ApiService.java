@@ -11,8 +11,8 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @POST("led")
-    Call<String> getLED(@Query("state") String value);
+    @POST("reverse")
+    Call<String> getReverse(@Query("state") String value);
 
     @POST("pwm")
     Call<String> getPWM(@Query("state") String value);

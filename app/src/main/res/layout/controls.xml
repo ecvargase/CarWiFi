@@ -47,4 +47,13 @@
         app:startAngle="-225"
         app:startColor="0xFFFFF314" />
 
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="242dp" />
+
 </RelativeLayout>

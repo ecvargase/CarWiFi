@@ -8,16 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import com.carwifi.cav.carwifi.R;
 import com.carwifi.cav.carwifi.network.ApiService;
 import com.carwifi.cav.carwifi.network.Network;
+import com.carwifi.cav.carwifi.network.Providers;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 import me.rorschach.library.ShaderSeekArc;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by camilo on 11/09/17.
@@ -30,6 +30,10 @@ public class Controls extends Fragment {
 
     Network network = new Network();
     private View view;
+    private ToggleButton toggle;
+    private JoystickView direction;
+    private ShaderSeekArc seekArc;
+    private Providers providers = new Providers();
 
     public static Controls newInstance() {
         Bundle args = new Bundle();
@@ -43,28 +47,46 @@ public class Controls extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.controls, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        service = network.ledService();
+
         setupJoyStickSpeed();
         setupJoyStickDirection();
+        setupStateDirection();
         return view;
-
     }
 
+    public void setupStateDirection() {
+        if (toggle == null) {
+            toggle = (ToggleButton) view.findViewById(R.id.toggleButton);
+        }
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    providers.setupReverse(String.valueOf(isChecked));
+                } else {
+                    providers.setupReverse(String.valueOf(isChecked));
+                }
+            }
+        });
+    }
+
+
     private void setupJoyStickDirection() {
-        JoystickView direction = (JoystickView) view.findViewById(R.id.joys);
+        if (direction == null) {
+            direction = (JoystickView) view.findViewById(R.id.joys);
+        }
         direction.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
 
                 if (angle == 0 && strength == 0) {
-                    setupServo(90);
+                    providers.setupServo(90);
                 }
                 if (0 < angle && angle <= 180) {
-                    setupServo(angle);
+                    providers.setupServo(angle);
                 }
                 if (180 < angle && angle <= 359) {
                     int currentAngle = 180 - (angle - 180);
-                    setupServo(currentAngle);
+                    providers.setupServo(currentAngle);
                 }
                 Log.d("Strength : ", String.valueOf(strength));
                 Log.d("angle : ", String.valueOf(angle));
@@ -73,7 +95,9 @@ public class Controls extends Fragment {
     }
 
     private void setupJoyStickSpeed() {
-        ShaderSeekArc seekArc = (ShaderSeekArc) view.findViewById(R.id.seek_arc);
+        if (seekArc == null) {
+            seekArc = (ShaderSeekArc) view.findViewById(R.id.seek_arc);
+        }
         seekArc.setStartValue(0);
         seekArc.setEndValue(100);
         seekArc.setProgress(0);
@@ -84,7 +108,7 @@ public class Controls extends Fragment {
 
                 int currentProgress = (int) progress;
                 Log.d("progress : ", String.valueOf(currentProgress));
-                setupPWM(currentProgress * 10);
+                providers.setupPWM(currentProgress * 10);
 
             }
 
@@ -94,44 +118,11 @@ public class Controls extends Fragment {
 
             @Override
             public void onStopTrackingTouch(ShaderSeekArc seekArc) {
-                setupPWM(0);
-//                seekArc.setProgress(0);
+                providers.setupPWM(0);
+                seekArc.setProgress(0);
 
             }
         });
     }
 
-
-    public void setupServo(int progress) {
-
-        Call<String> call = service.getServo(String.valueOf(progress));
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("LED", "response successful message " + response.message());
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("LED", "response failed code , RETROFIT ERROR");
-            }
-        });
-    }
-
-
-    public void setupPWM(int progress) {
-
-        Call<String> call = service.getPWM(String.valueOf(progress));
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("LED", "response successful message " + response.message());
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("LED", "response failed code , RETROFIT ERROR");
-            }
-        });
-    }
 }
