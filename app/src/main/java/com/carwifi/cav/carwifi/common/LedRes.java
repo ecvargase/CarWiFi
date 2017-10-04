@@ -1,10 +1,11 @@
-package com.janis.sac.carwifi;
+package com.carwifi.cav.carwifi.common;
 
 /**
  * Created by sac on 12/01/17.
  */
 
 public class LedRes {
+
     public String res;
 
     public void setRes(String res) {

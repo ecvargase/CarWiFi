@@ -1,11 +1,11 @@
-package com.janis.sac.carwifi;
-
+package com.carwifi.cav.carwifi.network;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
+ *  * Created by camilovargas on 3/10/17.
  * Retrofit interface for requests.
  */
 

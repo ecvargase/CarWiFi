@@ -4,12 +4,10 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.janis.sac.carwifi.MainActivity">
+    tools:context="com.carwifi.cav.carwifi.MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_fragment_container"/>
-
-
 </RelativeLayout>

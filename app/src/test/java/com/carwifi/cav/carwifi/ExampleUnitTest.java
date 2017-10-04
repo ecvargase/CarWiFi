@@ -1,4 +1,4 @@
-package com.janis.sac.carwifi;
+package com.carwifi.cav.carwifi;
 
 import org.junit.Test;
 

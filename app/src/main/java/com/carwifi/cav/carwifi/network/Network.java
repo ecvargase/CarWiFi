@@ -1,4 +1,4 @@
-package com.janis.sac.carwifi;
+package com.carwifi.cav.carwifi.network;
 
 import android.util.Log;
 
@@ -38,4 +38,5 @@ public class Network {
                 .build();
         return retrofit.create(ApiService.class);
     }
+
 }

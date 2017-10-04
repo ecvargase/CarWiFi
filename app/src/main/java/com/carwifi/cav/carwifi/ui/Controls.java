@@ -1,4 +1,4 @@
-package com.janis.sac.carwifi;
+package com.carwifi.cav.carwifi.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.carwifi.cav.carwifi.R;
+import com.carwifi.cav.carwifi.network.ApiService;
+import com.carwifi.cav.carwifi.network.Network;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 import me.rorschach.library.ShaderSeekArc;

@@ -1,9 +1,11 @@
-package com.janis.sac.carwifi;
+package com.carwifi.cav.carwifi;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
+
+import com.carwifi.cav.carwifi.ui.Controls;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,16 +17,14 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         initFragments();
     }
 
     public void initFragments() {
-        controls = Controls.newInstance();
+
+        if (controls == null) {
+            controls = Controls.newInstance();
+        }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.main_fragment_container, controls);
         ft.commit();
