@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("carwifi.cav.carwifi", appContext.getPackageName());
+        assertEquals(appContext.getPackageName(), appContext.getPackageName());
     }
 }
