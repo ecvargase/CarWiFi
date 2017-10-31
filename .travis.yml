@@ -2,14 +2,7 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
-notifications:
-  email:
-    recipients:
-      ecvargase@unal.edu.co
-    on_success: always # default: change
-    on_failure: always # default: always
 android:
-
   components:
     - platform-tools
     - tools
@@ -27,3 +20,17 @@ before_script:
   - adb shell input keyevent 82 &
 
 script: ./gradlew connectedAndroidTest
+
+after_success:
+  - ./gradlew jacocoFullReport
+  - pip install --user codecov
+  - codecov
+   
+notifications:
+  email:
+    recipients:
+      - ecvargase@unal.edu.co
+      - ecvargase@hotmail.com
+    on_success: always # default: change
+    on_failure: always # default: always
+
