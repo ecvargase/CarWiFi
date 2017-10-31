@@ -15,7 +15,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
@@ -37,12 +36,12 @@ public class MainActivityTest {
         vel.check(matches(isDisplayed()));
 
         ViewInteraction toggleButton = onView(
-                allOf(withId(R.id.toggleButton), withText("No"),
+                allOf(withId(R.id.toggleButton),
                         isDisplayed()));
         toggleButton.check(matches(isDisplayed())).perform(click());
 
         ViewInteraction toggleButton2 = onView(
-                allOf(withId(R.id.toggleButton), withText("Sí"), isDisplayed()));
+                allOf(withId(R.id.toggleButton), isDisplayed()));
         toggleButton2.check(matches(isDisplayed())).perform(click());
 
     }
