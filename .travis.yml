@@ -2,7 +2,14 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
+notifications:
+  email:
+    recipients:
+      ecvargase@unal.edu.co
+    on_success: always # default: change
+    on_failure: always # default: always
 android:
+
   components:
     - platform-tools
     - tools
