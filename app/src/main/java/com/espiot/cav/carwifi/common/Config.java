@@ -6,6 +6,7 @@ package com.espiot.cav.carwifi.common;
 
 public class Config {
 
+
     public static String baseURL = "http://192.168.4.1/";
 
 }
