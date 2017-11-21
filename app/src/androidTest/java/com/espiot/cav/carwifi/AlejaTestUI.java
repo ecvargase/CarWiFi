@@ -48,7 +48,7 @@ public class AlejaTestUI {
             e.printStackTrace();
         }
         ViewInteraction toggleButton2 = onView(
-                allOf(withId(R.id.toggleButton), withText("No"),
+                allOf(withId(R.id.toggleButton), withText("OFF"),
                         isDisplayed()));
         toggleButton2.perform(click());
         try {
@@ -57,7 +57,7 @@ public class AlejaTestUI {
             e.printStackTrace();
         }
         ViewInteraction toggleButton3 = onView(
-                allOf(withId(R.id.toggleButton), withText("Sí"),
+                allOf(withId(R.id.toggleButton), withText("ON"),
                         isDisplayed()));
         toggleButton3.perform(click());
 
