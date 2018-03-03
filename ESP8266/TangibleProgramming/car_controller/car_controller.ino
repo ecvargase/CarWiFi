@@ -15,6 +15,8 @@ struct Led {
 const char* wifi_ssid = "CarController";
 const char* wifi_passwd = "12345678";
 
+String sessionID = "";
+
 ESP8266WebServer http_rest_server(HTTP_REST_PORT);
 
 void init_led_resource()
@@ -22,6 +24,8 @@ void init_led_resource()
     led_resource.id = 0;
     led_resource.gpio = 5;
     led_resource.status = LOW;
+    pinMode(5, OUTPUT);
+    
 }
 
 int init_wifi() {
@@ -96,6 +100,7 @@ void post_put_leds() {
                 http_rest_server.sendHeader("Location", "/leds/" + String(led_resource.id));
                 http_rest_server.send(201);
                 pinMode(led_resource.gpio, OUTPUT);
+                digitalWrite(led_resource.gpio, led_resource.status);
             }
             else if (jsonBody["id"] == 0)
               http_rest_server.send(404);
@@ -115,6 +120,48 @@ void post_put_leds() {
     }
 }
 
+void post_instructionsSet() {
+    StaticJsonBuffer<500> jsonBuffer;
+    String post_body = http_rest_server.arg("plain");
+    Serial.println(post_body);
+
+    JsonObject& jsonBody = jsonBuffer.parseObject(http_rest_server.arg("plain"));
+
+    Serial.print("HTTP Method: ");
+    Serial.println(http_rest_server.method());
+    
+    if (!jsonBody.success()) {
+        Serial.println("error in parsin json body");
+        http_rest_server.send(400);
+    }
+    else {   
+        if (http_rest_server.method() == HTTP_POST) {
+            if ((jsonBody["sessionID"] == sessionID)) {
+                Serial.println("sessionID: ");
+                String a = jsonBody["sessionID"];
+                Serial.println(a);
+                JsonArray& intructions= jsonBody["instructions"];
+                int arraySize =  intructions.size();
+                Serial.println("Instructions: ");
+                  for (int i = 0; i< arraySize; i++){
+                 
+                  String singleInstruction=intructions[i];
+                  Serial.println(singleInstruction);
+                  if(singleInstruction == "ON"){
+                    digitalWrite(led_resource.gpio, 1);
+                    }else if(singleInstruction == "OFF"){
+                      digitalWrite(led_resource.gpio, 0);
+                      }
+                 
+                }
+                http_rest_server.send(200);
+            }
+        }
+        else
+              http_rest_server.send(404);
+        }
+}
+
 void config_rest_server_routing() {
     http_rest_server.on("/", HTTP_GET, []() {
         http_rest_server.send(200, "text/html",
@@ -123,6 +170,7 @@ void config_rest_server_routing() {
     http_rest_server.on("/leds", HTTP_GET, get_leds);
     http_rest_server.on("/leds", HTTP_POST, post_put_leds);
     http_rest_server.on("/leds", HTTP_PUT, post_put_leds);
+    http_rest_server.on("/api/v1/instructionsSet", HTTP_POST, post_instructionsSet);
 }
 
 void setup(void) {
