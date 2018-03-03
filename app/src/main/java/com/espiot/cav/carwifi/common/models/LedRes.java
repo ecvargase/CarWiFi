@@ -1,4 +1,4 @@
-package com.espiot.cav.carwifi.common;
+package com.espiot.cav.carwifi.common.models;
 
 /**
  * Created by sac on 12/01/17.

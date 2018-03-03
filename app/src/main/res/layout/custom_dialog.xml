@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/container_text_custom"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_background_containers"
+        android:gravity="center"
+        android:paddingBottom="50dp"
+        android:paddingLeft="27dp"
+        android:paddingRight="27dp"
+        android:paddingTop="30dp">
+
+        <TextView
+            android:id="@+id/text_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="test"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/dialogButtonOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:layout_below="@+id/container_text_custom"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_buttom_green"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="OK!"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+
+
+</RelativeLayout>

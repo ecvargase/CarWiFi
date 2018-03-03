@@ -1,5 +1,10 @@
 package com.espiot.cav.carwifi.network;
 
+import com.espiot.cav.carwifi.common.models.InstructionsSet;
+import com.espiot.cav.carwifi.common.models.ItemList;
+
+import java.util.ArrayList;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -33,6 +38,13 @@ public class Providers {
         Observable<String> servo = service.getServo(String.valueOf(progress));
         observableDefaultString(servo);
     }
+
+    public void setInstuctions(InstructionsSet instructionsSet) {
+
+        Observable<String> servo = service.getInstructions(instructionsSet);
+        observableDefaultString(servo);
+    }
+
 
     private void observableDefaultString(Observable<String> observable) {
 

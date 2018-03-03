@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 import com.espiot.cav.carwifi.ui.Controls;
+import com.espiot.cav.carwifi.ui.ProgTan;
 
 import timber.log.Timber;
 
@@ -16,6 +17,7 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     private Controls controls;
+    private ProgTan progTan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +31,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void initFragments() {
 
-        if (controls == null) {
-            controls = Controls.newInstance();
+//        if (controls == null) {
+//            controls = Controls.newInstance();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.main_fragment_container, controls);
+//            ft.commit();
+//        }
+
+        if (progTan == null) {
+            progTan = ProgTan.newInstance();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.main_fragment_container, controls);
+            ft.replace(R.id.main_fragment_container, progTan);
             ft.commit();
         }
+
+
     }
 
 }
