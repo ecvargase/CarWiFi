@@ -24,23 +24,25 @@
 ### REST Services contracts:
 
 1. /api/v1/session
-Metodo : POST
-Body:
-{
-name: "",
-device: ""
-}
-Response succes : 200 
-{ 
-session: "sessionID" 
-}
 
-2. /api/v1//instructionsSet
-recibe una lista de codigos de instrucciones
-Metodo : POST
-Body:
-{
-sessionID: "",
-intructions: [01,03,10,04]
-}
-Returns 200
+         Metodo : POST
+         Body:
+         {
+         name: "",
+         device: ""
+         }
+         Response succes : 200 
+         { 
+         session: "sessionID" 
+         }
+
+2. /api/v1//instructionsSet 
+Recibe una lista de codigos de instrucciones
+
+          Metodo : POST
+          Body:
+          {
+          sessionID: "",
+          intructions: [01,03,10,04]
+          }
+          Returns 200
