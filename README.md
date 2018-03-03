@@ -11,7 +11,7 @@
 ## Sensores
 -  Sensor de proximidad
 ## Actuadores
-- Motor x2
+- Motor x2 (moto reductor)
 - Led o bufffer de error en compilacion
 - Led del sensor de proximidad
 
@@ -31,7 +31,7 @@
          name: "",
          device: ""
          }
-         Response succes : 200 
+         Response on success : 200 , json
          { 
          session: "sessionID" 
          }
@@ -45,4 +45,4 @@ Recibe una lista de codigos de instrucciones
           sessionID: "",
           intructions: [01,03,10,04]
           }
-          Returns 200
+         Response on success : 200 
