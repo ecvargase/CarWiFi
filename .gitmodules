@@ -1,3 +1,0 @@
-[submodule "ESP8266/esp8266-restclient"]
-	path = ESP8266/esp8266-restclient
-	url = https://github.com/DaKaZ/esp8266-restclient
