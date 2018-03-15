@@ -65,78 +65,6 @@ int init_wifi() {
     return WiFi.status(); // return the WiFi connection status
 }
 
-void get_leds() {
-    StaticJsonBuffer<200> jsonBuffer;
-    JsonObject& jsonObj = jsonBuffer.createObject();
-    char JSONmessageBuffer[200];
-
-    if (led_resource.id == 0)
-        http_rest_server.send(204);
-    else {
-        jsonObj["id"] = led_resource.id;
-        jsonObj["gpio"] = led_resource.gpio;
-        jsonObj["status"] = led_resource.status;
-        jsonObj.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
-        http_rest_server.send(200, "application/json", JSONmessageBuffer);
-    }
-}
-
-void json_to_resource(JsonObject& jsonBody) {
-    int id, gpio, status;
-
-    id = jsonBody["id"];
-    gpio = jsonBody["gpio"];
-    status = jsonBody["status"];
-
-    Serial.println(id);
-    Serial.println(gpio);
-    Serial.println(status);
-
-    led_resource.id = id;
-    led_resource.gpio = gpio;
-    led_resource.status = status;
-}
-
-void post_put_leds() {
-    StaticJsonBuffer<500> jsonBuffer;
-    String post_body = http_rest_server.arg("plain");
-    Serial.println(post_body);
-
-    JsonObject& jsonBody = jsonBuffer.parseObject(http_rest_server.arg("plain"));
-
-    Serial.print("HTTP Method: ");
-    Serial.println(http_rest_server.method());
-    
-    if (!jsonBody.success()) {
-        Serial.println("error in parsin json body");
-        http_rest_server.send(400);
-    }
-    else {   
-        if (http_rest_server.method() == HTTP_POST) {
-            if ((jsonBody["id"] != 0) && (jsonBody["id"] != led_resource.id)) {
-                json_to_resource(jsonBody);
-                http_rest_server.sendHeader("Location", "/leds/" + String(led_resource.id));
-                http_rest_server.send(201);
-                pinMode(led_resource.gpio, OUTPUT);
-                digitalWrite(led_resource.gpio, led_resource.status);
-            }
-            else if (jsonBody["id"] == 0)
-              http_rest_server.send(404);
-            else if (jsonBody["id"] == led_resource.id)
-              http_rest_server.send(409);
-        }
-        else if (http_rest_server.method() == HTTP_PUT) {
-            if (jsonBody["id"] == led_resource.id) {
-                json_to_resource(jsonBody);
-                http_rest_server.sendHeader("Location", "/leds/" + String(led_resource.id));
-                http_rest_server.send(200);
-                digitalWrite(led_resource.gpio, led_resource.status);
-            }
-            else
-              http_rest_server.send(404);
-        }
-    }
-}
 
 void post_instructionsSet() {
     StaticJsonBuffer<500> jsonBuffer;
@@ -248,9 +176,6 @@ void config_rest_server_routing() {
         http_rest_server.send(200, "text/html",
             "Welcome to the ESP8266 REST Web Server");
     });
-    http_rest_server.on("/leds", HTTP_GET, get_leds);
-    http_rest_server.on("/leds", HTTP_POST, post_put_leds);
-    http_rest_server.on("/leds", HTTP_PUT, post_put_leds);
     http_rest_server.on("/api/v1/instructionsSet", HTTP_POST, post_instructionsSet);
 }
 

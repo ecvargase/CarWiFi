@@ -12,7 +12,8 @@
 -  Sensor de proximidad
 ## Actuadores
 - Motor x2 (moto reductor)
-- Led o bufffer de error en compilacion
+- Led 
+- Bufffer de error en compilacion
 - Led del sensor de proximidad
 
 ## Red 
@@ -46,3 +47,47 @@ Recibe una lista de codigos de instrucciones
           intructions: [01,03,10,04]
           }
          Response on success : 200 
+
+## Descripción del Lenguaje de los scripts
+El formato de salida para el analizador lexico es 
+
+        <tipo_de_token,lexema,fila,columna>
+        <tipo_de_token,fila,columna>
+
+### Palabras reservadas:
+| Palabra       | Lexema        |
+| ------------- | ------------- |
+| led           | led           |
+| car           | car           |         
+| while         | while         |   
+| prox_sensor   | prox_sensor   |   
+| if            | if            |   
+| else          | else          |   
+| left          | left          |   
+| right         | right         |   
+| forward       | forward       |   
+| backward      | backward      |  
+| on            | on            |
+| off           | off           |
+| true          | true          |
+| false         | false         |
+
+### Operadores:
+
+| Expresión     | Token         |
+| ------------- | ------------- |
+| {             |token_llave_izq|
+| }             |token_llave_der|         
+| (             | token_par_izq |   
+| )             | token_par_der |   
+| >             | token_mayor   |   
+| <             | token_menor   |   
+| >=            | token_mayor_igual|   
+| <=            | token_menor_igual|   
+| ==            |token_igual_num|   
+| !=            |token_dif_num  |  
+
+### Identificadores
+Solo son permitidos los numericos.
+
+        <token_integer,lexema,fila,columna>
