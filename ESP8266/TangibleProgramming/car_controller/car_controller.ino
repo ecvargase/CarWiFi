@@ -12,6 +12,16 @@ struct Led {
     byte status;
 } led_resource;
 
+
+struct Car {
+    byte id;
+    byte gpio_right_1;
+    byte gpio_right_2;    
+    byte gpio_left_1;
+    byte gpio_left_2;
+    byte status;
+} car_resource;
+
 const char* wifi_ssid = "CarController";
 const char* wifi_passwd = "12345678";
 
@@ -28,6 +38,20 @@ void init_led_resource()
     
 }
 
+void init_car_resource()
+{
+    car_resource.id = 1;
+    car_resource.gpio_right_1 = 12;
+    car_resource.gpio_right_2 = 14;
+    car_resource.gpio_left_1 = 13;
+    car_resource.gpio_left_2 = 15;    
+    car_resource.status = 0;
+    pinMode(12, OUTPUT);
+    pinMode(13, OUTPUT);
+    pinMode(14, OUTPUT);
+    pinMode(15, OUTPUT);    
+}
+
 int init_wifi() {
     int retries = 0;
 
@@ -38,12 +62,6 @@ int init_wifi() {
     IPAddress myIP = WiFi.softAPIP(); //Get IP address
     Serial.print("HotSpt IP:");
     Serial.println(myIP);
-    // check the status of WiFi connection to be WL_CONNECTED
-    //while ((WiFi.status() != WL_CONNECTED) && (retries < MAX_WIFI_INIT_RETRY)) {
-     //   retries++;
-     //   delay(WIFI_RETRY_DELAY);
-       // Serial.print("#");
-    //}
     return WiFi.status(); // return the WiFi connection status
 }
 
@@ -148,9 +166,17 @@ void post_instructionsSet() {
                   String singleInstruction=intructions[i];
                   Serial.println(singleInstruction);
                   if(singleInstruction == "ON"){
-                    digitalWrite(led_resource.gpio, 1);
+                    led_on();
                     }else if(singleInstruction == "OFF"){
-                      digitalWrite(led_resource.gpio, 0);
+                      led_off();
+                      }else if(singleInstruction == "UP"){
+                      car_forward();
+                      }else if(singleInstruction == "DOWN"){
+                      car_backward();
+                      }else if(singleInstruction == "LEFT"){
+                      car_turn_left();
+                      }else if(singleInstruction == "RIGHT"){
+                      car_turn_right();
                       }
                  
                 }
@@ -163,6 +189,59 @@ void post_instructionsSet() {
               http_rest_server.send(404);
         }
 }
+
+void led_on() {
+  digitalWrite(led_resource.gpio, 1);
+  delay(5000);
+  }
+void led_off() {
+  digitalWrite(led_resource.gpio, 0);
+  delay(5000);
+  }  
+void car_forward() {
+  digitalWrite(car_resource.gpio_right_1, 1);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 1);
+  digitalWrite(car_resource.gpio_left_2, 0);   
+  delay(3000);
+  digitalWrite(car_resource.gpio_right_1, 0);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 0);
+  digitalWrite(car_resource.gpio_left_2, 0);     
+  }  
+void car_backward() {
+  digitalWrite(car_resource.gpio_right_1, 0);
+  digitalWrite(car_resource.gpio_right_2, 1);  
+  digitalWrite(car_resource.gpio_left_1, 0);
+  digitalWrite(car_resource.gpio_left_2, 1);   
+  delay(3000);
+  digitalWrite(car_resource.gpio_right_1, 0);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 0);
+  digitalWrite(car_resource.gpio_left_2, 0);   
+  }  
+void car_turn_left() {
+  digitalWrite(car_resource.gpio_right_1, 1);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 0);
+  digitalWrite(car_resource.gpio_left_2, 0);   
+  delay(3000);
+  digitalWrite(car_resource.gpio_right_1, 0);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 0);
+  digitalWrite(car_resource.gpio_left_2, 0);   
+  }    
+void car_turn_right() {
+  digitalWrite(car_resource.gpio_right_1, 0);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 1);
+  digitalWrite(car_resource.gpio_left_2, 0);   
+  delay(3000);
+  digitalWrite(car_resource.gpio_right_1, 0);
+  digitalWrite(car_resource.gpio_right_2, 0);  
+  digitalWrite(car_resource.gpio_left_1, 0);
+  digitalWrite(car_resource.gpio_left_2, 0);   
+  }    
 
 void config_rest_server_routing() {
     http_rest_server.on("/", HTTP_GET, []() {
@@ -179,6 +258,7 @@ void setup(void) {
     Serial.begin(115200);
 
     init_led_resource();
+    init_car_resource();
     if (init_wifi() == WL_CONNECTED) {
         Serial.print("Connetted to ");
         Serial.print(wifi_ssid);
