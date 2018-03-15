@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.espiot.cav.carwifi.R;
 import com.espiot.cav.carwifi.adapters.InstructionsAdapter;
+import com.espiot.cav.carwifi.adapters.holders.InstructionViewHolder;
 import com.espiot.cav.carwifi.common.Config;
 import com.espiot.cav.carwifi.common.models.InstructionsSet;
 import com.espiot.cav.carwifi.common.models.ItemList;
@@ -37,7 +38,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
 
     private View view;
     private RecyclerView recycler;
-    private RecyclerView.Adapter<InstructionsAdapter.InstructionViewHolder> adapter;
+    private RecyclerView.Adapter<InstructionViewHolder> adapter;
     private RecyclerView.LayoutManager lManager;
     private boolean hasInstrution = false;
     private boolean hasPeripheral = false;

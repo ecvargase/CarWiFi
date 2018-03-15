@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.espiot.cav.carwifi.R;
+import com.espiot.cav.carwifi.adapters.holders.InstructionViewHolder;
 import com.espiot.cav.carwifi.common.models.ItemList;
 import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
 import com.squareup.picasso.Picasso;
@@ -21,39 +22,8 @@ import timber.log.Timber;
  * Created by camilovargas on 3/03/18.
  */
 
-public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapter.InstructionViewHolder> {
+public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHolder> {
     private List<ItemList> items;
-
-    public static class InstructionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        public ImageView instruction;
-        public ImageView peripherial;
-        public ImageView valid;
-        private CommonInterfaces commonInterfaces;
-
-        public InstructionViewHolder(View v) {
-            super(v);
-            instruction = v.findViewById(R.id.instruction_card);
-            peripherial = v.findViewById(R.id.peripheral_card);
-            valid = v.findViewById(R.id.valid);
-            v.setOnClickListener(this);
-            v.setOnLongClickListener(this);
-        }
-
-        public void setItemClickListener(CommonInterfaces clickListener) {
-            this.commonInterfaces = clickListener;
-        }
-
-        @Override
-        public void onClick(View view) {
-            commonInterfaces.onClick(view, getAdapterPosition(), false);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            commonInterfaces.onClick(view, getAdapterPosition(), true);
-            return true;
-        }
-    }
 
     public InstructionsAdapter(List<ItemList> items) {
         this.items = items;
