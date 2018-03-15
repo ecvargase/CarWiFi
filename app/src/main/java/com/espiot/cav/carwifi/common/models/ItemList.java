@@ -10,10 +10,11 @@ public class ItemList {
     private TYPE type;
 
 
-    public static enum TYPE {
+    public enum TYPE {
         MOVE,
         LED
     }
+
 
     public ItemList(String instruction, String peripheral, TYPE type) {
         this.instruction = instruction;

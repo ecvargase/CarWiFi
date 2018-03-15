@@ -33,6 +33,7 @@ class Network {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         setupOkhttpBuilder(builder);
         OkHttpClient client = builder.build();
+
         Retrofit.Builder retrofitBuilder = new Retrofit
                 .Builder()
                 .baseUrl(Config.baseURL)

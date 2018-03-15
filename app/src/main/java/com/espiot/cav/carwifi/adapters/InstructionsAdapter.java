@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.espiot.cav.carwifi.R;
 import com.espiot.cav.carwifi.common.models.ItemList;
+import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,16 +24,34 @@ import timber.log.Timber;
 public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapter.InstructionViewHolder> {
     private List<ItemList> items;
 
-    public static class InstructionViewHolder extends RecyclerView.ViewHolder {
+    public static class InstructionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public ImageView instruction;
         public ImageView peripherial;
         public ImageView valid;
+        private CommonInterfaces commonInterfaces;
 
         public InstructionViewHolder(View v) {
             super(v);
-            instruction = (ImageView) v.findViewById(R.id.instruction_card);
-            peripherial = (ImageView) v.findViewById(R.id.peripheral_card);
-            valid = (ImageView) v.findViewById(R.id.valid);
+            instruction = v.findViewById(R.id.instruction_card);
+            peripherial = v.findViewById(R.id.peripheral_card);
+            valid = v.findViewById(R.id.valid);
+            v.setOnClickListener(this);
+            v.setOnLongClickListener(this);
+        }
+
+        public void setItemClickListener(CommonInterfaces clickListener) {
+            this.commonInterfaces = clickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            commonInterfaces.onClick(view, getAdapterPosition(), false);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            commonInterfaces.onClick(view, getAdapterPosition(), true);
+            return true;
         }
     }
 
@@ -53,7 +73,27 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     @Override
     public void onBindViewHolder(InstructionViewHolder viewHolder, int i) {
+        viewHolder.setItemClickListener(new CommonInterfaces() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                if (!isLongClick) {
+                    Toast.makeText(view.getContext(), "Instrucción: " + items.get(position).getInstruction()
+                                    + ", periférico: " + items.get(position).getPeripheral(),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Toast.makeText(view.getContext(), "Eliminar Instrucción //TODO", Toast.LENGTH_SHORT)
+                            .show();
+                }
 
+            }
+        });
+
+        setViewHolder(viewHolder, i);
+    }
+
+
+    private void setViewHolder(InstructionViewHolder viewHolder, int i) {
         switch (items.get(i).getInstruction()) {
             case "ON":
                 Picasso.with(viewHolder.instruction.getContext())
@@ -67,25 +107,25 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
                         .resize(80, 80)
                         .into(viewHolder.instruction);
                 break;
-            case "up":
+            case "UP":
                 Picasso.with(viewHolder.instruction.getContext())
                         .load(R.drawable.flecha_up)
                         .resize(80, 80)
                         .into(viewHolder.instruction);
                 break;
-            case "left":
+            case "LEFT":
                 Picasso.with(viewHolder.instruction.getContext())
                         .load(R.drawable.flecha_left)
                         .resize(80, 80)
                         .into(viewHolder.instruction);
                 break;
-            case "right":
+            case "RIGHT":
                 Picasso.with(viewHolder.instruction.getContext())
                         .load(R.drawable.flecha_right)
                         .resize(80, 80)
                         .into(viewHolder.instruction);
                 break;
-            case "down":
+            case "DOWN":
                 Picasso.with(viewHolder.instruction.getContext())
                         .load(R.drawable.flecha_down)
                         .resize(80, 80)
@@ -125,8 +165,8 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
                 break;
             case MOVE:
                 String stateMove = items.get(i).getInstruction();
-                if (Objects.equals(stateMove, "up") || Objects.equals(stateMove, "down")
-                        || Objects.equals(stateMove, "right") || Objects.equals(stateMove, "left")) {
+                if (Objects.equals(stateMove, "UP") || Objects.equals(stateMove, "DOWN")
+                        || Objects.equals(stateMove, "RIGHT") || Objects.equals(stateMove, "LEFT")) {
                     Picasso.with(viewHolder.valid.getContext())
                             .load(R.drawable.ok)
                             .resize(20, 20)
@@ -139,6 +179,5 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
                 }
                 break;
         }
-
     }
 }

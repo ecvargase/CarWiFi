@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.espiot.cav.carwifi.R;
 import com.espiot.cav.carwifi.adapters.InstructionsAdapter;
+import com.espiot.cav.carwifi.common.Config;
 import com.espiot.cav.carwifi.common.models.InstructionsSet;
 import com.espiot.cav.carwifi.common.models.ItemList;
 import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
@@ -76,23 +77,6 @@ public class ProgTan extends Fragment implements CommonInterfaces {
 
         items = new ArrayList<ItemList>();
         recycler = view.findViewById(R.id.list_instructions);
-        recycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                Timber.d("recycler  interp"+ rv);
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-                Timber.d("recycler Touch Event "+ rv);
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-                Timber.d("recycler  DIsa"+ disallowIntercept);
-            }
-        });
         recycler.setHasFixedSize(true);
         lManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
@@ -108,7 +92,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             public void onClick(View view) {
 
                 if (!hasInstrution) {
-                    move = "up";
+                    move = Config.UP;
                     hasInstrution = true;
                     validationData();
                 }
@@ -119,7 +103,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
-                    move = "down";
+                    move = Config.DOWN;
                     hasInstrution = true;
                     validationData();
                 }
@@ -130,7 +114,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
-                    move = "right";
+                    move = Config.RIGHT;
                     hasInstrution = true;
                     validationData();
                 }
@@ -141,7 +125,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
-                    move = "left";
+                    move = Config.LEFT;
                     hasInstrution = true;
                     validationData();
                 }
@@ -152,7 +136,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
-                    move = "ON";
+                    move = Config.ON;
                     hasInstrution = true;
                     validationData();
                 }
@@ -162,7 +146,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
-                    move = "OFF";
+                    move = Config.OFF;
                     hasInstrution = true;
                     validationData();
                 }
@@ -198,6 +182,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         if (isCompleteInstruction()) {
             Timber.d("Datos a agregar" + move + peripheral);
             items.add(new ItemList(move, peripheral, type));
+
             adapter = new InstructionsAdapter(items);
             recycler.setAdapter(adapter);
             move = null;
@@ -231,7 +216,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             switch (item.getType()) {
                 case LED:
                     String stateLed = item.getInstruction();
-                    if (Objects.equals(stateLed, "ON") || Objects.equals(stateLed, "OFF")) {
+                    if (Objects.equals(stateLed, Config.ON) || Objects.equals(stateLed, Config.OFF)) {
                         Timber.d("Valor válido %s", stateLed);
                         data.add(stateLed);
                     } else {
@@ -241,8 +226,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     break;
                 case MOVE:
                     String stateMove = item.getInstruction();
-                    if (Objects.equals(stateMove, "up") || Objects.equals(stateMove, "down")
-                            || Objects.equals(stateMove, "right") || Objects.equals(stateMove, "left")) {
+                    if (Objects.equals(stateMove, Config.UP) || Objects.equals(stateMove, Config.DOWN)
+                            || Objects.equals(stateMove, Config.RIGHT) || Objects.equals(stateMove, Config.LEFT)) {
                         Timber.d("Valor válido %s", stateMove);
                         data.add(stateMove);
                     } else {
@@ -270,7 +255,6 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
             }
         });
@@ -278,8 +262,9 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         dialog.show();
     }
 
+
     @Override
-    public void deleteItem(int i) {
-        Timber.d("Elemento--> %s", i);
+    public void onClick(View view, int position, boolean isLongClick) {
+      Timber.d(String.valueOf(position));
     }
 }
