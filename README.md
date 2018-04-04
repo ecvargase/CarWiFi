@@ -29,8 +29,8 @@
          Metodo : POST
          Body:
          {
-         name: "",
-         device: ""
+         "name": "",
+         "device": ""
          }
          Response on success : 200 , json
          { 
@@ -43,12 +43,16 @@ Recibe una lista de codigos de instrucciones
           Metodo : POST
           Body:
           {
-          sessionID: "",
-          intructions: [01,03,10,04]
+          "sessionID": "",
+          "instructions": [01,03,10,04]
           }
          Response on success : 200 
 
-## Descripción del Lenguaje de los scripts
+Example:
+
+        curl -X POST -H "Content-Type: application/json" -d '{"sessionID": "", "instructions": ["ON","OFF","ON"]}' http://192.168.4.1/api/v1/instructionsSet         
+
+## Descripción del Lenguaje de los scripts creados en la APP
 El formato de salida para el analizador lexico es 
 
         <tipo_de_token,lexema,fila,columna>
