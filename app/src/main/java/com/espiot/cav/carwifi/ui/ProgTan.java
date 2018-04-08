@@ -1,12 +1,12 @@
 package com.espiot.cav.carwifi.ui;
 
 import android.app.Dialog;
+import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,10 +21,12 @@ import com.espiot.cav.carwifi.adapters.holders.InstructionViewHolder;
 import com.espiot.cav.carwifi.common.Config;
 import com.espiot.cav.carwifi.common.models.InstructionsSet;
 import com.espiot.cav.carwifi.common.models.ItemList;
+import com.espiot.cav.carwifi.databinding.ProgTanBinding;
 import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
 import com.espiot.cav.carwifi.network.Providers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 import timber.log.Timber;
@@ -36,8 +38,7 @@ import timber.log.Timber;
 public class ProgTan extends Fragment implements CommonInterfaces {
 
 
-    private View view;
-    private RecyclerView recycler;
+    private ProgTanBinding progTan;
     private RecyclerView.Adapter<InstructionViewHolder> adapter;
     private RecyclerView.LayoutManager lManager;
     private boolean hasInstrution = false;
@@ -60,12 +61,12 @@ public class ProgTan extends Fragment implements CommonInterfaces {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.prog_tan, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        progTan = DataBindingUtil.inflate(inflater, R.layout.prog_tan, container, false);
         setButtons();
         run();
+        delete();
         setRecyclerView();
-        return view;
+        return progTan.getRoot();
     }
 
 
@@ -76,18 +77,17 @@ public class ProgTan extends Fragment implements CommonInterfaces {
     public void setRecyclerView() {
 
         items = new ArrayList<ItemList>();
-        recycler = view.findViewById(R.id.list_instructions);
-        recycler.setHasFixedSize(true);
+        progTan.listInstructions.setHasFixedSize(true);
         lManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
-        recycler.setLayoutManager(lManager);
+        progTan.listInstructions.setLayoutManager(lManager);
         adapter = new InstructionsAdapter(items);
-        recycler.setAdapter(adapter);
+        progTan.listInstructions.setAdapter(adapter);
     }
 
 
     public void setButtons() {
-        view.findViewById(R.id.up_button).setOnClickListener(new View.OnClickListener() {
+        progTan.upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -99,7 +99,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             }
         });
 
-        view.findViewById(R.id.down_button).setOnClickListener(new View.OnClickListener() {
+        progTan.downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
@@ -110,7 +110,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             }
         });
 
-        view.findViewById(R.id.right_button).setOnClickListener(new View.OnClickListener() {
+        progTan.rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
@@ -121,7 +121,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             }
         });
 
-        view.findViewById(R.id.left_button).setOnClickListener(new View.OnClickListener() {
+        progTan.leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
@@ -132,7 +132,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             }
         });
 
-        view.findViewById(R.id.on_button).setOnClickListener(new View.OnClickListener() {
+        progTan.onButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
@@ -142,7 +142,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                 }
             }
         });
-        view.findViewById(R.id.off_button).setOnClickListener(new View.OnClickListener() {
+        progTan.offButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasInstrution) {
@@ -153,7 +153,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             }
         });
 
-        view.findViewById(R.id.led_button).setOnClickListener(new View.OnClickListener() {
+        progTan.ledButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasPeripheral) {
@@ -165,7 +165,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             }
         });
 
-        view.findViewById(R.id.move_button).setOnClickListener(new View.OnClickListener() {
+        progTan.moveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasPeripheral) {
@@ -191,15 +191,27 @@ public class ProgTan extends Fragment implements CommonInterfaces {
     }
 
     public void run() {
-        view.findViewById(R.id.run).setOnClickListener(new View.OnClickListener() {
+        progTan.run.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (items.size() > 0) {
                     isVadidDataToSend();
 
+                } else {
+                    openDialogSMS("No has agregado ninguna instrucción");
+                }
+            }
+        });
+    }
+
+    public void delete() {
+        progTan.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (items.size() > 0) {
                     items = new ArrayList<>();
                     adapter = new InstructionsAdapter(items);
-                    recycler.setAdapter(adapter);
+                    progTan.listInstructions.setAdapter(adapter);
                 } else {
                     openDialogSMS("No has agregado ninguna instrucción");
                 }
@@ -208,8 +220,10 @@ public class ProgTan extends Fragment implements CommonInterfaces {
     }
 
 
+
     public boolean isVadidDataToSend() {
-        ArrayList<String> data = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<>();
+        ArrayList<String> fail = new ArrayList<>();
         for (ItemList item : items) {
             switch (item.getType()) {
                 case LED:
@@ -218,8 +232,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                         Timber.d("Valor válido %s", stateLed);
                         data.add(stateLed);
                     } else {
-                        openDialogSMS("El Led no puede moverse hacía " + stateLed);
-                        return false;
+                        fail.add(String.valueOf(items.indexOf(item) + 1));
                     }
                     break;
                 case MOVE:
@@ -229,15 +242,23 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                         Timber.d("Valor válido %s", stateMove);
                         data.add(stateMove);
                     } else {
-                        openDialogSMS("El carro no puede " + stateMove);
-                        return false;
-
+                        fail.add(String.valueOf(items.indexOf(item) + 1));
                     }
                     break;
             }
         }
-        InstructionsSet instructionsSet = new InstructionsSet("", data);
-        providers.setInstuctions(instructionsSet);
+
+        if (fail.size() > 0) {
+            if(fail.size()==1){
+                openDialogSMS("La instrucción " + Arrays.toString(fail.toArray()) + " no es válida");
+            }else{
+                openDialogSMS("Las instrucciones " + Arrays.toString(fail.toArray()) + " no son válidas");
+            }
+        } else {
+            InstructionsSet instructionsSet = new InstructionsSet("", data);
+            providers.setInstuctions(instructionsSet);
+        }
+
         return true;
 
     }
@@ -263,6 +284,6 @@ public class ProgTan extends Fragment implements CommonInterfaces {
 
     @Override
     public void onClick(View view, int position, boolean isLongClick) {
-      Timber.d(String.valueOf(position));
+        Timber.d(String.valueOf(position));
     }
 }

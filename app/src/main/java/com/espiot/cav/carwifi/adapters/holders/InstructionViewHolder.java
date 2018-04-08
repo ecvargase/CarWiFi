@@ -3,6 +3,7 @@ package com.espiot.cav.carwifi.adapters.holders;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.espiot.cav.carwifi.R;
 import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
@@ -16,6 +17,7 @@ public class InstructionViewHolder extends RecyclerView.ViewHolder implements
     public ImageView instruction;
     public ImageView peripherial;
     public ImageView valid;
+    public TextView count;
     private CommonInterfaces commonInterfaces;
 
     public InstructionViewHolder(View v) {
@@ -23,6 +25,7 @@ public class InstructionViewHolder extends RecyclerView.ViewHolder implements
         instruction = v.findViewById(R.id.instruction_card);
         peripherial = v.findViewById(R.id.peripheral_card);
         valid = v.findViewById(R.id.valid);
+        count = v.findViewById(R.id.counter);
         v.setOnClickListener(this);
         v.setOnLongClickListener(this);
     }

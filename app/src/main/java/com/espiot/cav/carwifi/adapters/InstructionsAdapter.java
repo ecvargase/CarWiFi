@@ -43,6 +43,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
 
     @Override
     public void onBindViewHolder(InstructionViewHolder viewHolder, int i) {
+        Timber.d("Current Position %s", i + 1);
         viewHolder.setItemClickListener(new CommonInterfaces() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
@@ -59,21 +60,23 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
             }
         });
 
+        viewHolder.count.setText(Integer.toString(i + 1));
         setViewHolder(viewHolder, i);
     }
 
 
     private void setViewHolder(InstructionViewHolder viewHolder, int i) {
         switch (items.get(i).getInstruction()) {
+
             case "ON":
                 Picasso.with(viewHolder.instruction.getContext())
-                        .load(R.drawable.led)
+                        .load(R.drawable.ic_flash_on_black_18dp)
                         .resize(80, 80)
                         .into(viewHolder.instruction);
                 break;
             case "OFF":
                 Picasso.with(viewHolder.instruction.getContext())
-                        .load(R.drawable.led_off)
+                        .load(R.drawable.ic_flash_off_black_18dp)
                         .resize(80, 80)
                         .into(viewHolder.instruction);
                 break;
@@ -123,13 +126,13 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
                 if (Objects.equals(stateLed, "ON") || Objects.equals(stateLed, "OFF")) {
                     Timber.d("Valor válido %s", stateLed);
                     Picasso.with(viewHolder.valid.getContext())
-                            .load(R.drawable.ok)
-                            .resize(20, 20)
+                            .load(R.drawable.ic_check_circle_black_18dp)
+//                            .resize(18, 18)
                             .into(viewHolder.valid);
                 } else {
                     Picasso.with(viewHolder.valid.getContext())
-                            .load(R.drawable.wrong)
-                            .resize(20, 20)
+                            .load(R.drawable.ic_highlight_off_red_500_18dp)
+//                            .resize(18, 18)
                             .into(viewHolder.valid);
                 }
                 break;
@@ -138,13 +141,13 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
                 if (Objects.equals(stateMove, "UP") || Objects.equals(stateMove, "DOWN")
                         || Objects.equals(stateMove, "RIGHT") || Objects.equals(stateMove, "LEFT")) {
                     Picasso.with(viewHolder.valid.getContext())
-                            .load(R.drawable.ok)
-                            .resize(20, 20)
+                            .load(R.drawable.ic_check_circle_black_18dp)
+//                            .resize(18, 18)
                             .into(viewHolder.valid);
                 } else {
                     Picasso.with(viewHolder.valid.getContext())
-                            .load(R.drawable.wrong)
-                            .resize(20, 20)
+                            .load(R.drawable.ic_highlight_off_red_500_18dp)
+//                            .resize(18, 18)
                             .into(viewHolder.valid);
                 }
                 break;

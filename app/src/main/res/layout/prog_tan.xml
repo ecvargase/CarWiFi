@@ -1,136 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relativeLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
 
-    <Button
-        android:id="@+id/run"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="16dp"
-        android:background="@drawable/custom_buttom_green"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="RUN!"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        <variable
+            name="progtan"
+            type="com.espiot.cav.carwifi.ui.ProgTan" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/instructions_move"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="24dp">
-
-        <ImageButton
-            android:background="@drawable/custom_buttom_red"
-            android:id="@+id/move_button"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="34dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/motor" />
-
-        <Button
-            android:background="@drawable/custom_buttom_red"
-            android:id="@+id/led_button"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:text="Luces" />
-    </LinearLayout>
+        <import type="android.view.View" />
+    </data>
 
     <RelativeLayout
-        android:id="@+id/instructions_move"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/directions"
+
+        <Button
+            android:id="@+id/run"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/up_button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/custom_buttom_green"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="RUN!"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/custom_buttom_all_red"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Eliminar"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/instructions_move"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="24dp">
+
+            <ImageButton
+                android:id="@+id/move_button"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="34dp"
+                android:background="@drawable/custom_buttom_red"
+                android:scaleType="fitXY"
+                android:src="@drawable/motor" />
+
+            <Button
+                android:id="@+id/led_button"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:background="@drawable/custom_buttom_red"
+                android:text="Luces" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/instructions_move"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+            <LinearLayout
+                android:id="@+id/directions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/up_button"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/left_button"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="34dp"
+                    android:background="@drawable/custom_buttom_blue"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/flecha_left" />
+
+                <ImageButton
+                    android:id="@+id/right_button"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="34dp"
+                    android:background="@drawable/custom_buttom_blue"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/flecha_right" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/up_button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_buttom_blue"
+                android:gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/flecha_up" />
+
+            <ImageButton
+                android:id="@+id/down_button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_below="@id/directions"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_buttom_blue"
+                android:scaleType="fitXY"
+                android:src="@drawable/flecha_down" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/instructions_move"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:background="@drawable/custom_buttom_blue"
-                android:id="@+id/left_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginEnd="34dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/flecha_left" />
 
             <ImageButton
+                android:id="@+id/on_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/custom_buttom_blue"
-                android:id="@+id/right_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="34dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/flecha_right" />
+                android:src="@drawable/ic_flash_on_white_24dp"
+                android:layout_marginEnd="10dp"/>
+
+            <ImageButton
+                android:layout_marginStart="10dp"
+                android:id="@+id/off_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/custom_buttom_blue"
+                android:src="@drawable/ic_flash_off_white_24dp"/>
 
         </LinearLayout>
 
-        <ImageButton
-            android:background="@drawable/custom_buttom_blue"
-            android:id="@+id/up_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:scaleType="fitXY"
-            android:src="@drawable/flecha_up" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scrollbars="horizontal" />
 
-        <ImageButton
-            android:background="@drawable/custom_buttom_blue"
-            android:id="@+id/down_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_below="@id/directions"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/flecha_down" />
+
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/lights"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/instructions_move"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-
-        <Button
-            android:background="@drawable/custom_buttom_blue"
-            android:id="@+id/on_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prender" />
-
-        <Button
-            android:background="@drawable/custom_buttom_blue"
-            android:id="@+id/off_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apagar" />
-
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_instructions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:scrollbars="horizontal" />
-
-
-</RelativeLayout>
+</layout>
