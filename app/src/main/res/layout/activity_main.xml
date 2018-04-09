@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
-                    android:backgroundTint="#A817A3"
+                    android:backgroundTint="#1DA9F0"
                     android:elevation="4dp">
 
                     <RelativeLayout

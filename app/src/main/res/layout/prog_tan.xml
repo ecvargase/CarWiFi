@@ -47,16 +47,18 @@
             android:textSize="16sp" />
 
         <LinearLayout
+            android:id="@+id/embebido_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/instructions_move"
+            android:layout_below="@id/delete"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="24dp">
+            android:background="@drawable/custom_buttom_general_red">
 
             <ImageButton
                 android:id="@+id/move_button"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="34dp"
                 android:background="@drawable/custom_buttom_red"
                 android:scaleType="fitXY"
@@ -66,72 +68,134 @@
                 android:id="@+id/led_button"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/custom_buttom_red"
                 android:text="Luces" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/instructions_move"
+
+        <LinearLayout
+            android:id="@+id/container_general_buttons_control"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/embebido_container"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true">
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/directions"
+            <RelativeLayout
+                android:id="@+id/cycles_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/up_button"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal">
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_buttom_general_purple">
+
+                <!--<ImageButton-->
+                <!--android:id="@+id/for_button"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:layout_marginBottom="24dp"-->
+                <!--android:background="@drawable/custom_buttom_purple"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:text="FOR" />-->
+
+                <!--<ImageButton-->
+                <!--android:id="@+id/if_button"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:layout_below="@id/for_button"-->
+                <!--android:background="@drawable/custom_buttom_purple"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:text="IF" />-->
+                <Button
+                    android:id="@+id/for_button"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/custom_buttom_purple"
+                    android:scaleType="fitXY"
+                    android:text="FOR"
+                    android:textColor="#EEEEEE" />
+
+                <Button
+                    android:id="@+id/if_button"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/for_button"
+                    android:background="@drawable/custom_buttom_purple"
+                    android:scaleType="fitXY"
+                    android:text="IF"
+                    android:textColor="#EEEEEE"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@drawable/custom_buttom_general_blue"
+                android:id="@+id/instructions_move"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/run"
+                android:layout_below="@+id/embebido_container">
+
+                <LinearLayout
+                    android:id="@+id/directions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/up_button"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/left_button"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="34dp"
+                        android:background="@drawable/custom_buttom_blue"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/flecha_left" />
+
+                    <ImageButton
+                        android:id="@+id/right_button"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="34dp"
+                        android:background="@drawable/custom_buttom_blue"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/flecha_right" />
+
+                </LinearLayout>
 
                 <ImageButton
-                    android:id="@+id/left_button"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginEnd="34dp"
+                    android:id="@+id/up_button"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
                     android:background="@drawable/custom_buttom_blue"
+                    android:gravity="center"
                     android:scaleType="fitXY"
-                    android:src="@drawable/flecha_left" />
+                    android:src="@drawable/flecha_up" />
 
                 <ImageButton
-                    android:id="@+id/right_button"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="34dp"
+                    android:id="@+id/down_button"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/directions"
+                    android:layout_centerHorizontal="true"
                     android:background="@drawable/custom_buttom_blue"
                     android:scaleType="fitXY"
-                    android:src="@drawable/flecha_right" />
+                    android:src="@drawable/flecha_down" />
+            </RelativeLayout>
+        </LinearLayout>
 
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/up_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_buttom_blue"
-                android:gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/flecha_up" />
-
-            <ImageButton
-                android:id="@+id/down_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_below="@id/directions"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_buttom_blue"
-                android:scaleType="fitXY"
-                android:src="@drawable/flecha_down" />
-        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/lights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/instructions_move"
+            android:layout_below="@id/container_general_buttons_control"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_buttom_general_yellow"
             android:orientation="horizontal">
 
 
@@ -139,26 +203,37 @@
                 android:id="@+id/on_button"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/custom_buttom_blue"
-                android:src="@drawable/ic_flash_on_white_24dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/custom_buttom_yellow"
+                android:src="@drawable/ic_flash_on_white_24dp" />
 
             <ImageButton
-                android:layout_marginStart="10dp"
                 android:id="@+id/off_button"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/custom_buttom_blue"
-                android:src="@drawable/ic_flash_off_white_24dp"/>
+                android:layout_marginStart="10dp"
+                android:background="@drawable/custom_buttom_yellow"
+                android:src="@drawable/ic_flash_off_white_24dp" />
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_instructions"
+
+        <RelativeLayout
+            android:id="@+id/container_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:scrollbars="horizontal" />
+            android:layout_margin="8dp"
+            android:background="@drawable/recycler_background">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:scrollbars="horizontal" />
+        </RelativeLayout>
 
 
     </RelativeLayout>

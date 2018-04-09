@@ -220,7 +220,6 @@ public class ProgTan extends Fragment implements CommonInterfaces {
     }
 
 
-
     public boolean isVadidDataToSend() {
         ArrayList<String> data = new ArrayList<>();
         ArrayList<String> fail = new ArrayList<>();
@@ -249,14 +248,17 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         }
 
         if (fail.size() > 0) {
-            if(fail.size()==1){
-                openDialogSMS("La instrucción " + Arrays.toString(fail.toArray()) + " no es válida");
-            }else{
-                openDialogSMS("Las instrucciones " + Arrays.toString(fail.toArray()) + " no son válidas");
+            if (fail.size() == 1) {
+                openDialogSMS("Oh Oh!\nHay un error en la casilla\n" + Arrays.toString(fail.toArray()));
+            } else {
+                openDialogSMS("Oh Oh!\nHay un error en las casillas\n" + Arrays.toString(fail.toArray()));
             }
         } else {
             InstructionsSet instructionsSet = new InstructionsSet("", data);
             providers.setInstuctions(instructionsSet);
+            items = new ArrayList<>();
+            adapter = new InstructionsAdapter(items);
+            progTan.listInstructions.setAdapter(adapter);
         }
 
         return true;
