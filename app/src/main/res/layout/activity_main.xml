@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -47,9 +46,9 @@
                             android:id="@+id/text_toolbar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="ProgTan"
                             android:textColor="#EEEEEE"
-                            android:textSize="24sp"
-                            android:text="ProgTan" />
+                            android:textSize="24sp" />
 
                     </RelativeLayout>
 
@@ -78,14 +77,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="24dp">
 
-                    <!--<ImageView-->
-                    <!--android:id="@+id/logo_menu"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="140dp"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:layout_margin="16dp"-->
-                    <!--android:src="@drawable/im_splash_logo_innovakit" />-->
-
 
                     <RelativeLayout
                         android:id="@+id/container_menu"
@@ -100,19 +91,14 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:background="#EEEEEE" />
-                        <!--<ImageView-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_centerVertical="true"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_width="30dp"-->
-                        <!--android:layout_height="30dp"-->
-                        <!--android:src="@drawable/ic_phone"/>-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="24dp"
+                            android:layout_centerHorizontal="true"
+                            android:textStyle="bold|italic"
                             android:text="Listado de instrucciones"
                             android:textColor="#EEEEEE"
                             android:textSize="18sp" />
@@ -127,6 +113,39 @@
 
                     </RelativeLayout>
 
+
+                    <ScrollView
+                        android:id="@+id/container_instruction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/container_menu">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <Button
+                                android:id="@+id/text_test"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_margin="16dp"
+                                android:background="@drawable/custom_buttom_all_red"
+                                android:text="Ver listado"
+                                android:textColor="#EEEEEE" />
+
+                            <TextView
+                                android:id="@+id/instruction_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/text_test"
+                                android:layout_centerHorizontal="true"
+                                android:layout_margin="16dp"
+                                android:textColor="#EEEEEE"
+                                android:textSize="16sp" />
+                        </RelativeLayout>
+
+                    </ScrollView>
 
                 </RelativeLayout>
 

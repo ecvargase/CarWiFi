@@ -10,8 +10,11 @@ import android.widget.Toast;
 import com.espiot.cav.carwifi.R;
 import com.espiot.cav.carwifi.adapters.holders.InstructionViewHolder;
 import com.espiot.cav.carwifi.common.models.ItemList;
+import com.espiot.cav.carwifi.eventbus.ItemListeners;
 import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,15 +50,17 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
         viewHolder.setItemClickListener(new CommonInterfaces() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                if (!isLongClick) {
-                    Toast.makeText(view.getContext(), "Instrucción: " + items.get(position).getInstruction()
-                                    + ", periférico: " + items.get(position).getPeripheral(),
-                            Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    Toast.makeText(view.getContext(), "Eliminar Instrucción //TODO", Toast.LENGTH_SHORT)
-                            .show();
-                }
+                EventBus.getDefault().post(new ItemListeners(position, isLongClick));
+//                if (!isLongClick) {
+////                    EventBus.getDefault().post(new ItemListeners(position, isLongClick));
+//                    Toast.makeText(view.getContext(), "Instrucción: " + items.get(position).getInstruction()
+//                                    + ", periférico: " + items.get(position).getPeripheral(),
+//                            Toast.LENGTH_SHORT)
+//                            .show();
+//                } else {
+//                    Toast.makeText(view.getContext(), "Eliminar Instrucción //TODO", Toast.LENGTH_SHORT)
+//                            .show();
+//                }
 
             }
         });

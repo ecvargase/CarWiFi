@@ -1,7 +1,10 @@
 package com.espiot.cav.carwifi.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,8 +25,12 @@ import com.espiot.cav.carwifi.common.Config;
 import com.espiot.cav.carwifi.common.models.InstructionsSet;
 import com.espiot.cav.carwifi.common.models.ItemList;
 import com.espiot.cav.carwifi.databinding.ProgTanBinding;
+import com.espiot.cav.carwifi.eventbus.ItemListeners;
 import com.espiot.cav.carwifi.interfaces.CommonInterfaces;
 import com.espiot.cav.carwifi.network.Providers;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +56,6 @@ public class ProgTan extends Fragment implements CommonInterfaces {
     private Providers providers = new Providers();
     private ItemList.TYPE type;
 
-
     public static ProgTan newInstance() {
 
         Bundle args = new Bundle();
@@ -66,9 +72,33 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         run();
         delete();
         setRecyclerView();
+
         return progTan.getRoot();
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    @SuppressWarnings("unused")
+    public void onItemListener(ItemListeners itemListeners) {
+        Timber.d("Position %s ", itemListeners.getPosition());
+        Timber.d("LongClick %s ", itemListeners.isLongClick());
+
+        if (itemListeners.isLongClick()) {
+            deleteItem(itemListeners.getPosition());
+        }
+    }
 
     public boolean isCompleteInstruction() {
         return hasInstrution && hasPeripheral;
@@ -78,9 +108,10 @@ public class ProgTan extends Fragment implements CommonInterfaces {
 
         items = new ArrayList<ItemList>();
         progTan.listInstructions.setHasFixedSize(true);
-        lManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+//        lManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
-        progTan.listInstructions.setLayoutManager(lManager);
+        progTan.listInstructions.setLayoutManager(layoutManager);
         adapter = new InstructionsAdapter(items);
         progTan.listInstructions.setAdapter(adapter);
     }
@@ -182,6 +213,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         if (isCompleteInstruction()) {
             Timber.d("Datos a agregar" + move + peripheral);
             items.add(new ItemList(move, peripheral, type));
+            progTan.listInstructions.smoothScrollToPosition(items.size());
+            Config.getInstance().setItems(items);
             adapter.notifyDataSetChanged();
             move = null;
             peripheral = null;
@@ -279,7 +312,28 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                 dialog.dismiss();
             }
         });
+        dialog.show();
+    }
 
+    @SuppressLint("SetTextI18n")
+    void deleteItem(final int item) {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.custom_dialog);
+        TextView text = dialog.findViewById(R.id.text_dialog);
+        text.setTextSize(24);
+        text.setTextColor(Color.RED);
+        text.setTypeface(text.getTypeface(), Typeface.BOLD);
+        text.setText("Quieres borrar la instrucción\n" + String.valueOf(item + 1) + " ?");
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                items.remove(item);
+                adapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 

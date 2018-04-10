@@ -108,6 +108,7 @@
                 <!--android:background="@drawable/custom_buttom_purple"-->
                 <!--android:scaleType="fitXY"-->
                 <!--android:text="IF" />-->
+
                 <Button
                     android:id="@+id/for_button"
                     android:layout_width="100dp"
@@ -126,16 +127,14 @@
                     android:background="@drawable/custom_buttom_purple"
                     android:scaleType="fitXY"
                     android:text="IF"
-                    android:textColor="#EEEEEE"/>
+                    android:textColor="#EEEEEE" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:background="@drawable/custom_buttom_general_blue"
                 android:id="@+id/instructions_move"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/run"
-                android:layout_below="@+id/embebido_container">
+                android:background="@drawable/custom_buttom_general_blue">
 
                 <LinearLayout
                     android:id="@+id/directions"
