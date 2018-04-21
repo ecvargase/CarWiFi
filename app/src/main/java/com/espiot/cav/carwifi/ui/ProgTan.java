@@ -15,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -73,6 +75,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
         delete();
         setRecyclerView();
 
+
         return progTan.getRoot();
     }
 
@@ -108,9 +111,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
 
         items = new ArrayList<ItemList>();
         progTan.listInstructions.setHasFixedSize(true);
-//        lManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-
         progTan.listInstructions.setLayoutManager(layoutManager);
         adapter = new InstructionsAdapter(items);
         progTan.listInstructions.setAdapter(adapter);
@@ -126,6 +127,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     move = Config.UP;
                     hasInstrution = true;
                     validationData();
+                    movePeripheral();
                 }
             }
         });
@@ -137,6 +139,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     move = Config.DOWN;
                     hasInstrution = true;
                     validationData();
+                    movePeripheral();
+
                 }
             }
         });
@@ -148,6 +152,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     move = Config.RIGHT;
                     hasInstrution = true;
                     validationData();
+                    movePeripheral();
+
                 }
             }
         });
@@ -159,6 +165,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     move = Config.LEFT;
                     hasInstrution = true;
                     validationData();
+                    movePeripheral();
+
                 }
             }
         });
@@ -170,6 +178,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     move = Config.ON;
                     hasInstrution = true;
                     validationData();
+                    movePeripheral();
+
                 }
             }
         });
@@ -180,6 +190,8 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     move = Config.OFF;
                     hasInstrution = true;
                     validationData();
+                    movePeripheral();
+
                 }
             }
         });
@@ -192,6 +204,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     type = ItemList.TYPE.LED;
                     hasPeripheral = true;
                     validationData();
+                    moveInstruction();
                 }
             }
         });
@@ -204,10 +217,12 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     type = ItemList.TYPE.MOVE;
                     hasPeripheral = true;
                     validationData();
+                    moveInstruction();
                 }
             }
         });
     }
+
 
     private void validationData() {
         if (isCompleteInstruction()) {
@@ -220,6 +235,9 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             peripheral = null;
             hasInstrution = false;
             hasPeripheral = false;
+            moveInstruction();
+            movePeripheral();
+
         }
     }
 
@@ -231,19 +249,55 @@ public class ProgTan extends Fragment implements CommonInterfaces {
                     isVadidDataToSend();
 
                 } else {
+                    hasInstrution=false;
+                    hasPeripheral=false;
+                    moveInstruction();
+                    movePeripheral();
                     openDialogSMS("No has agregado ninguna instrucción");
                 }
             }
         });
     }
 
+    Animation shakePeripheral;
+    Animation shakeInstruction;
+
+    private void movePeripheral() {
+        shakePeripheral = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        if (hasInstrution) {
+            progTan.embebidoContainer.startAnimation(shakePeripheral);
+        } else {
+            progTan.embebidoContainer.clearAnimation();
+
+        }
+    }
+
+    private void moveInstruction() {
+        shakeInstruction = AnimationUtils.loadAnimation(getContext(), R.anim.shake_ins);
+        if (hasPeripheral) {
+            progTan.lights.startAnimation(shakeInstruction);
+            progTan.instructionsMove.startAnimation(shakeInstruction);
+        } else {
+            progTan.lights.clearAnimation();
+            progTan.instructionsMove.clearAnimation();
+
+        }
+    }
+
+
     public void delete() {
+
         progTan.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hasPeripheral = false;
+                hasInstrution = false;
+                movePeripheral();
+                moveInstruction();
                 if (items.size() > 0) {
                     items = new ArrayList<>();
                     adapter = new InstructionsAdapter(items);
+                    Config.getInstance().setItems(items);
                     progTan.listInstructions.setAdapter(adapter);
                 } else {
                     openDialogSMS("No has agregado ninguna instrucción");
@@ -291,6 +345,7 @@ public class ProgTan extends Fragment implements CommonInterfaces {
             providers.setInstuctions(instructionsSet);
             items = new ArrayList<>();
             adapter = new InstructionsAdapter(items);
+            Config.getInstance().setItems(items);
             progTan.listInstructions.setAdapter(adapter);
         }
 
