@@ -1,7 +1,7 @@
 #include <DHT.h>
  
 // Definimos el pin digital donde se conecta el sensor
-#define DHTPIN 4
+#define DHTPIN 5
 // Dependiendo del tipo de sensor
 #define DHTTYPE DHT11
  int led_status = 0;
@@ -12,7 +12,7 @@ DHT dht(DHTPIN, DHTTYPE);
 void setup() {
   // Inicializamos comunicación serie
   Serial.begin(115200);
-  pinMode(5, OUTPUT);
+  pinMode(16, OUTPUT);
   // Comenzamos el sensor DHT
   dht.begin();
 }
@@ -25,7 +25,7 @@ void loop() {
     }else {
       led_status=0;
       }
-  digitalWrite(5, led_status);
+  digitalWrite(16, led_status);
  
   // Leemos la humedad relativa
   float h = dht.readHumidity();

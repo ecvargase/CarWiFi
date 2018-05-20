@@ -11,10 +11,12 @@
  
 */
 /* DECLARACION DE VARIABLES PARA PINES*/
-const int pinecho = 12;
-const int pintrigger = 14;
-const int pinled = 5;
- 
+const int pinecho = 2;
+const int pintrigger = 0;
+const int pinled = 16;
+const int pinledb = 9; 
+const int pinledc = 10;
+
 /*/ VARIABLES PARA CALCULOS*/
 unsigned int tiempo, distancia;
  
@@ -25,6 +27,8 @@ void setup() {
   pinMode(pinecho, INPUT);
   pinMode(pintrigger, OUTPUT);
   pinMode(pinled, OUTPUT);
+  pinMode(pinledb, OUTPUT);
+  pinMode(pinledc, OUTPUT);
 }
  
 void loop() {
@@ -51,8 +55,13 @@ void loop() {
   // ENCENDER EL LED CUANDO SE CUMPLA CON CIERTA DISTANCIA
   if (distancia <= 15) {
     digitalWrite(pinled, HIGH);
+    digitalWrite(pinledb, HIGH);
+    digitalWrite(pinledc, HIGH);
     delay(500);
   } else {
     digitalWrite(pinled, LOW);
+    digitalWrite(pinledb, LOW);
+    digitalWrite(pinledc, LOW);
+
   }
 }

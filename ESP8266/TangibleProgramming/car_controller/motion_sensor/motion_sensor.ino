@@ -1,7 +1,7 @@
 //Made By TrustFm for Hw2Sw.com
  
-int Motion_Led_Pin = 5;                // choose the pin for the LED
-int PIR_Sensor_Pin = 0;                 // choose the input pin (for PIR sensor)
+int Motion_Led_Pin = 16;                // choose the pin for the LED
+int PIR_Sensor_Pin = 4;                 // choose the input pin (for PIR sensor)
 boolean Motion_Already_Detected = false;// we start, assuming that no motion is detected
 int PIR_Sensor_Status = 0;              // variable for reading the current PIR_Sensor_Status
 unsigned long Duration_Of_Motion;
