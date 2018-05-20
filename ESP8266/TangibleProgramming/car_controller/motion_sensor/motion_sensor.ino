@@ -22,7 +22,7 @@ void loop(){
  
     digitalWrite(Motion_Led_Pin, HIGH);  // turn LED ON
     if (Motion_Already_Detected  == false) { //If we did not have motion before -> then change the current motion state to true
-      Serial.println("Motion detected! [start]");
+      Serial.println("Posible Motion detected! [start]");
       Motion_Already_Detected  = true;
       Duration_Of_Motion = millis();
     }
@@ -32,11 +32,12 @@ void loop(){
     digitalWrite(Motion_Led_Pin, LOW); // turn LED OFF
     if (Motion_Already_Detected  == true){ //We had motion before so -> change the current motion state to false
       Duration_Of_Motion = millis() - Duration_Of_Motion;
- 
-      Message = "The motion detected ended! Motion duration :  ";
+      if(Duration_Of_Motion>1000){
+      Message = "Real motion detected ended! Motion duration :  ";
       Message += Duration_Of_Motion;
       Message += " ms";
       Serial.println(Message);
+      }
       Motion_Already_Detected = false;
     }
   }
