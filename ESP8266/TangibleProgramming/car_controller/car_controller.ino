@@ -184,10 +184,8 @@ void post_instructionsSet() {
                   Serial.println(singleInstruction);
                   if(singleInstruction == "ON"){
                     led_on();
-                    led2_on();
                     }else if(singleInstruction == "OFF"){
                       led_off();
-                      led2_off();
                       }else if(singleInstruction == "UP"){
                       car_forward();
                       }else if(singleInstruction == "DOWN"){
@@ -322,6 +320,7 @@ void read_temp_hum() {
 
   }  
 void motion_detection() {
+    real_motion_detected = false;
     while(real_motion_detected != true){
       PIR_Sensor_Status = digitalRead(PIR_Sensor_Pin);  // read PIR Sensor status
    
