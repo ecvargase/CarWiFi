@@ -26,7 +26,8 @@ int PIR_Sensor_Status = 0;              // variable for reading the current PIR_
 unsigned long Duration_Of_Motion;
 String Message;
 boolean real_motion_detected = false;
-    
+
+unsigned int tiempo, distancia;
 struct Led {
     byte id;
     byte gpio;
@@ -75,6 +76,30 @@ void setup(void) {
 
 void loop(void) {
     http_rest_server.handleClient();
+  digitalWrite(proximity_sensor.gpio_pintrigger, LOW);
+  delayMicroseconds(2);
+  digitalWrite(proximity_sensor.gpio_pintrigger, HIGH);
+  // EL PULSO DURA AL MENOS 10 uS EN ESTADO ALTO
+  delayMicroseconds(10);
+  digitalWrite(proximity_sensor.gpio_pintrigger, LOW);
+ 
+  // MEDIR EL TIEMPO EN ESTADO ALTO DEL PIN "ECHO" EL PULSO ES PROPORCIONAL A LA DISTANCIA MEDIDA
+  tiempo = pulseIn(proximity_sensor.gpio_pinecho, HIGH);
+ 
+  // LA VELOCIDAD DEL SONIDO ES DE 340 M/S O 29 MICROSEGUNDOS POR CENTIMETRO
+  // DIVIDIMOS EL TIEMPO DEL PULSO ENTRE 58, TIEMPO QUE TARDA RECORRER IDA Y VUELTA UN CENTIMETRO LA ONDA SONORA
+  distancia = tiempo / 58;
+ 
+  // ENVIAR EL RESULTADO AL MONITOR SERIAL
+  //Serial.print(distancia);
+  //Serial.println(" cm");
+ 
+  // ENCENDER EL LED CUANDO SE CUMPLA CON CIERTA DISTANCIA
+    if (distancia <= 15) {
+      digitalWrite(9, HIGH);
+    } else {
+      digitalWrite(9, LOW);
+    }
 }
 void init_led_resources()
 {
@@ -248,31 +273,6 @@ void car_turn_right() {
   digitalWrite(car_resource.gpio_left_2, LOW);  
   }    
 void read_proximity_value() {
-  unsigned int tiempo, distancia;
-  digitalWrite(proximity_sensor.gpio_pintrigger, LOW);
-  delayMicroseconds(2);
-  digitalWrite(proximity_sensor.gpio_pintrigger, HIGH);
-  // EL PULSO DURA AL MENOS 10 uS EN ESTADO ALTO
-  delayMicroseconds(10);
-  digitalWrite(proximity_sensor.gpio_pintrigger, LOW);
- 
-  // MEDIR EL TIEMPO EN ESTADO ALTO DEL PIN "ECHO" EL PULSO ES PROPORCIONAL A LA DISTANCIA MEDIDA
-  tiempo = pulseIn(proximity_sensor.gpio_pinecho, HIGH);
- 
-  // LA VELOCIDAD DEL SONIDO ES DE 340 M/S O 29 MICROSEGUNDOS POR CENTIMETRO
-  // DIVIDIMOS EL TIEMPO DEL PULSO ENTRE 58, TIEMPO QUE TARDA RECORRER IDA Y VUELTA UN CENTIMETRO LA ONDA SONORA
-  distancia = tiempo / 58;
- 
-  // ENVIAR EL RESULTADO AL MONITOR SERIAL
-  Serial.print(distancia);
-  Serial.println(" cm");
- 
-  // ENCENDER EL LED CUANDO SE CUMPLA CON CIERTA DISTANCIA
-    if (distancia <= 15) {
-      digitalWrite(led_resource_2.gpio, HIGH);
-    } else {
-      digitalWrite(led_resource_2.gpio, LOW);
-    }
     String response_init = "{";
     String distance_init= "\"distance\": ";
     String response_unit = "\"unit\":\"cm\",";
