@@ -7,7 +7,7 @@
 #define WIFI_RETRY_DELAY 500
 #define MAX_WIFI_INIT_RETRY 50
 
-const char* wifi_ssid = "CarController";
+const char* wifi_ssid = "Milo-TALP";
 const char* wifi_passwd = "12345678";
 String sessionID = "";
 ESP8266WebServer http_rest_server(HTTP_REST_PORT);
@@ -78,6 +78,8 @@ void setup(void) {
 
 void loop(void) {
     http_rest_server.handleClient();
+}
+void update_distance(){
   digitalWrite(proximity_sensor.gpio_pintrigger, LOW);
   delayMicroseconds(2);
   digitalWrite(proximity_sensor.gpio_pintrigger, HIGH);
@@ -91,11 +93,11 @@ void loop(void) {
   // LA VELOCIDAD DEL SONIDO ES DE 340 M/S O 29 MICROSEGUNDOS POR CENTIMETRO
   // DIVIDIMOS EL TIEMPO DEL PULSO ENTRE 58, TIEMPO QUE TARDA RECORRER IDA Y VUELTA UN CENTIMETRO LA ONDA SONORA
   distancia = tiempo / 58;
- 
-  // ENVIAR EL RESULTADO AL MONITOR SERIAL
+    // ENVIAR EL RESULTADO AL MONITOR SERIAL
   Serial.print(distancia);
   Serial.println(" cm");
-}
+  
+  }
 void init_led_resources()
 {
     led_resource.id = 0;
@@ -223,23 +225,27 @@ void led2_off() {
   }  
 void car_forward() {
   real_motion_detected = false;
-  if (distancia <= 10 && distancia != 0 ) {
-        digitalWrite(car_resource.gpio_right_1, LOW);
-        digitalWrite(car_resource.gpio_right_2, LOW);  
-        digitalWrite(car_resource.gpio_left_1, LOW);
-        digitalWrite(car_resource.gpio_left_2, LOW);   
-  } else {
-  digitalWrite(car_resource.gpio_right_1, LOW);
-  digitalWrite(car_resource.gpio_right_2, HIGH);  
-  digitalWrite(car_resource.gpio_left_1, LOW);
-  digitalWrite(car_resource.gpio_left_2, HIGH);   
-  delay(3000);
+  int interval = 0; 
+  while(interval <60 ){
+        update_distance();
+    if (distancia <= 10 && distancia != 0 ) {
+          digitalWrite(car_resource.gpio_right_1, LOW);
+          digitalWrite(car_resource.gpio_right_2, LOW);  
+          digitalWrite(car_resource.gpio_left_1, LOW);
+          digitalWrite(car_resource.gpio_left_2, LOW);   
+    } else {  
+          digitalWrite(car_resource.gpio_right_1, LOW);
+          digitalWrite(car_resource.gpio_right_2, HIGH);  
+          digitalWrite(car_resource.gpio_left_1, LOW);
+          digitalWrite(car_resource.gpio_left_2, HIGH);       
+      }
+    delay(50);     
+    interval ++;
+  }
   digitalWrite(car_resource.gpio_right_1, LOW);
   digitalWrite(car_resource.gpio_right_2, LOW);  
   digitalWrite(car_resource.gpio_left_1, LOW);
   digitalWrite(car_resource.gpio_left_2, LOW);   
-    }
-  
   }  
 void car_backward() {
   digitalWrite(car_resource.gpio_right_1, HIGH);
@@ -247,11 +253,10 @@ void car_backward() {
   digitalWrite(car_resource.gpio_left_1, HIGH);
   digitalWrite(car_resource.gpio_left_2, LOW);   
   int interval = 0; 
-    while(real_motion_detected != true && interval !=60 ){
+    while(real_motion_detected != true && interval <60 ){
       PIR_Sensor_Status = digitalRead(PIR_Sensor_Pin);  // read PIR Sensor status
    
     if (PIR_Sensor_Status == HIGH) {                     // if the PIR Sensor is HIGH
-      digitalWrite(Motion_Led_Pin, HIGH);  // turn LED ON
       if (Motion_Already_Detected  == false) { //If we did not have motion before -> then change the current motion state to true
         Serial.println("Posible Motion detected! [start]");
         Motion_Already_Detected  = true;
@@ -260,7 +265,6 @@ void car_backward() {
    
     } else { 
       // if the PIR Sensor status is LOW   
-      digitalWrite(Motion_Led_Pin, LOW); // turn LED OFF
       if (Motion_Already_Detected  == true){ //We had motion before so -> change the current motion state to false
         Duration_Of_Motion = millis() - Duration_Of_Motion;
         if(Duration_Of_Motion>1000){
@@ -278,7 +282,6 @@ void car_backward() {
       }
     }
     if(interval==59){
-                Serial.println("interval == 14");
         digitalWrite(car_resource.gpio_right_1, LOW);
         digitalWrite(car_resource.gpio_right_2, LOW);  
         digitalWrite(car_resource.gpio_left_1, LOW);
@@ -386,7 +389,6 @@ void motion_detection() {
    
     if (PIR_Sensor_Status == HIGH) {                     // if the PIR Sensor is HIGH
    
-      digitalWrite(Motion_Led_Pin, HIGH);  // turn LED ON
       if (Motion_Already_Detected  == false) { //If we did not have motion before -> then change the current motion state to true
         Serial.println("Posible Motion detected! [start]");
         Motion_Already_Detected  = true;
@@ -394,9 +396,7 @@ void motion_detection() {
       }
    
     } else {                     // if the PIR Sensor status is LOW
-   
-      digitalWrite(Motion_Led_Pin, LOW); // turn LED OFF
-      if (Motion_Already_Detected  == true){ //We had motion before so -> change the current motion state to false
+        if (Motion_Already_Detected  == true){ //We had motion before so -> change the current motion state to false
         Duration_Of_Motion = millis() - Duration_Of_Motion;
         if(Duration_Of_Motion>1000){
         Message = "Real motion detected! Motion duration :  ";
