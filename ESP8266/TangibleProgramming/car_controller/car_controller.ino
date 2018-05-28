@@ -297,41 +297,51 @@ void car_backward() {
   }
 void car_turn_left() {
   real_motion_detected = false;
-  if (distancia <= 10 && distancia != 0 ) {
-        digitalWrite(car_resource.gpio_right_1, LOW);
-        digitalWrite(car_resource.gpio_right_2, LOW);  
-        digitalWrite(car_resource.gpio_left_1, LOW);
-        digitalWrite(car_resource.gpio_left_2, LOW);   
-  } else {
-  digitalWrite(car_resource.gpio_right_1, LOW);
-  digitalWrite(car_resource.gpio_right_2, HIGH);  
-  digitalWrite(car_resource.gpio_left_1, LOW);
-  digitalWrite(car_resource.gpio_left_2, LOW);   
-  delay(3000);
+  int interval = 0; 
+  while(interval <60 ){
+        update_distance();
+    if (distancia <= 10 && distancia != 0 ) {
+          digitalWrite(car_resource.gpio_right_1, LOW);
+          digitalWrite(car_resource.gpio_right_2, LOW);  
+          digitalWrite(car_resource.gpio_left_1, LOW);
+          digitalWrite(car_resource.gpio_left_2, LOW);   
+    } else {  
+          digitalWrite(car_resource.gpio_right_1, LOW);
+          digitalWrite(car_resource.gpio_right_2, HIGH);  
+          digitalWrite(car_resource.gpio_left_1, LOW);
+          digitalWrite(car_resource.gpio_left_2, LOW);       
+      }
+    delay(50);     
+    interval ++;
+  }
   digitalWrite(car_resource.gpio_right_1, LOW);
   digitalWrite(car_resource.gpio_right_2, LOW);  
   digitalWrite(car_resource.gpio_left_1, LOW);
   digitalWrite(car_resource.gpio_left_2, LOW);   
-  }
   }    
 void car_turn_right() {
-  real_motion_detected = false;  
-  if (distancia <= 10 && distancia != 0 ) {
-        digitalWrite(car_resource.gpio_right_1, LOW);
-        digitalWrite(car_resource.gpio_right_2, LOW);  
-        digitalWrite(car_resource.gpio_left_1, LOW);
-        digitalWrite(car_resource.gpio_left_2, LOW);   
-  } else {
-  digitalWrite(car_resource.gpio_right_1, LOW);
-  digitalWrite(car_resource.gpio_right_2, LOW);  
-  digitalWrite(car_resource.gpio_left_1, LOW);
-  digitalWrite(car_resource.gpio_left_2, HIGH);   
-  delay(3000);
-  digitalWrite(car_resource.gpio_right_1, LOW);
-  digitalWrite(car_resource.gpio_right_2, LOW);  
-  digitalWrite(car_resource.gpio_left_1, LOW);
-  digitalWrite(car_resource.gpio_left_2, LOW);  
+  real_motion_detected = false;
+  int interval = 0; 
+  while(interval <60 ){
+        update_distance();
+    if (distancia <= 10 && distancia != 0 ) {
+          digitalWrite(car_resource.gpio_right_1, LOW);
+          digitalWrite(car_resource.gpio_right_2, LOW);  
+          digitalWrite(car_resource.gpio_left_1, LOW);
+          digitalWrite(car_resource.gpio_left_2, LOW);   
+    } else {  
+          digitalWrite(car_resource.gpio_right_1, LOW);
+          digitalWrite(car_resource.gpio_right_2, LOW);  
+          digitalWrite(car_resource.gpio_left_1, LOW);
+          digitalWrite(car_resource.gpio_left_2, HIGH);      
+      }
+    delay(50);     
+    interval ++;
   }
+  digitalWrite(car_resource.gpio_right_1, LOW);
+  digitalWrite(car_resource.gpio_right_2, LOW);  
+  digitalWrite(car_resource.gpio_left_1, LOW);
+  digitalWrite(car_resource.gpio_left_2, LOW);   
   }    
 void read_proximity_value() {
     String response_init = "{";
