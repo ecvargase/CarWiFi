@@ -247,7 +247,7 @@ void car_backward() {
   digitalWrite(car_resource.gpio_left_1, HIGH);
   digitalWrite(car_resource.gpio_left_2, LOW);   
   int interval = 0; 
-    while(real_motion_detected != true && interval !=15 ){
+    while(real_motion_detected != true && interval !=60 ){
       PIR_Sensor_Status = digitalRead(PIR_Sensor_Pin);  // read PIR Sensor status
    
     if (PIR_Sensor_Status == HIGH) {                     // if the PIR Sensor is HIGH
@@ -277,7 +277,7 @@ void car_backward() {
         Motion_Already_Detected = false;
       }
     }
-    if(interval==14){
+    if(interval==59){
                 Serial.println("interval == 14");
         digitalWrite(car_resource.gpio_right_1, LOW);
         digitalWrite(car_resource.gpio_right_2, LOW);  
@@ -285,7 +285,7 @@ void car_backward() {
         digitalWrite(car_resource.gpio_left_2, LOW); 
         }
     interval ++;
-    delay(200);
+    delay(50);
     }
     digitalWrite(car_resource.gpio_right_1, LOW);
     digitalWrite(car_resource.gpio_right_2, LOW);  
