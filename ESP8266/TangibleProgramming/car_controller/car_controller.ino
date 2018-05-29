@@ -226,7 +226,7 @@ void led2_off() {
 void car_forward() {
   real_motion_detected = false;
   int interval = 0; 
-  while(interval <60 ){
+  while(interval <20 ){
         update_distance();
     if (distancia <= 10 && distancia != 0 ) {
           digitalWrite(car_resource.gpio_right_1, LOW);
@@ -253,7 +253,7 @@ void car_backward() {
   digitalWrite(car_resource.gpio_left_1, HIGH);
   digitalWrite(car_resource.gpio_left_2, LOW);   
   int interval = 0; 
-    while(real_motion_detected != true && interval <60 ){
+    while(real_motion_detected != true && interval <20 ){
       PIR_Sensor_Status = digitalRead(PIR_Sensor_Pin);  // read PIR Sensor status
    
     if (PIR_Sensor_Status == HIGH) {                     // if the PIR Sensor is HIGH
@@ -281,7 +281,7 @@ void car_backward() {
         Motion_Already_Detected = false;
       }
     }
-    if(interval==59){
+    if(interval==19){
         digitalWrite(car_resource.gpio_right_1, LOW);
         digitalWrite(car_resource.gpio_right_2, LOW);  
         digitalWrite(car_resource.gpio_left_1, LOW);
@@ -298,7 +298,7 @@ void car_backward() {
 void car_turn_left() {
   real_motion_detected = false;
   int interval = 0; 
-  while(interval <60 ){
+  while(interval <20 ){
         update_distance();
     if (distancia <= 10 && distancia != 0 ) {
           digitalWrite(car_resource.gpio_right_1, LOW);
@@ -322,7 +322,7 @@ void car_turn_left() {
 void car_turn_right() {
   real_motion_detected = false;
   int interval = 0; 
-  while(interval <60 ){
+  while(interval <20 ){
         update_distance();
     if (distancia <= 10 && distancia != 0 ) {
           digitalWrite(car_resource.gpio_right_1, LOW);
