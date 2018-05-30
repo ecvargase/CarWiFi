@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:background="#1DA9F0"
+                android:background="#ffffff"
                 android:fitsSystemWindows="true">
 
                 <RelativeLayout
@@ -90,18 +90,18 @@
                             android:layout_alignParentTop="true"
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
-                            android:background="#EEEEEE" />
+                            android:background="#141DDE" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="24dp"
-                            android:layout_centerHorizontal="true"
-                            android:textStyle="bold|italic"
                             android:text="Listado de instrucciones"
-                            android:textColor="#EEEEEE"
-                            android:textSize="18sp" />
+                            android:textColor="#141DDE"
+                            android:textSize="20sp"
+                            android:textStyle="bold|italic" />
 
                         <View
                             android:layout_width="match_parent"
@@ -109,39 +109,39 @@
                             android:layout_alignParentBottom="true"
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
-                            android:background="#EEEEEE" />
+                            android:background="#141DDE" />
 
                     </RelativeLayout>
-
+                    <Button
+                        android:id="@+id/text_test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/container_menu"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/custom_buttom_all_red"
+                        android:text="Ver listado"
+                        android:textColor="#EEEEEE" />
 
                     <ScrollView
                         android:id="@+id/container_instruction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/container_menu">
+                        android:layout_below="@id/text_test">
+
+
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <Button
-                                android:id="@+id/text_test"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_margin="16dp"
-                                android:background="@drawable/custom_buttom_all_red"
-                                android:text="Ver listado"
-                                android:textColor="#EEEEEE" />
 
                             <TextView
                                 android:id="@+id/instruction_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/text_test"
                                 android:layout_centerHorizontal="true"
                                 android:layout_margin="16dp"
-                                android:textColor="#EEEEEE"
+                                android:textColor="#141DDE"
                                 android:textSize="16sp" />
                         </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.espiot.cav.carwifi.adapters;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,16 +52,6 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
                 EventBus.getDefault().post(new ItemListeners(position, isLongClick));
-//                if (!isLongClick) {
-////                    EventBus.getDefault().post(new ItemListeners(position, isLongClick));
-//                    Toast.makeText(view.getContext(), "Instrucción: " + items.get(position).getInstruction()
-//                                    + ", periférico: " + items.get(position).getPeripheral(),
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                } else {
-//                    Toast.makeText(view.getContext(), "Eliminar Instrucción //TODO", Toast.LENGTH_SHORT)
-//                            .show();
-//                }
 
             }
         });
@@ -130,11 +121,15 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
                 String stateLed = items.get(i).getInstruction();
                 if (Objects.equals(stateLed, "ON") || Objects.equals(stateLed, "OFF")) {
                     Timber.d("Valor válido %s", stateLed);
+                    viewHolder.continer.setBackgroundColor(ContextCompat.getColor(viewHolder
+                            .continer.getContext(), R.color.correct));
                     Picasso.with(viewHolder.valid.getContext())
                             .load(R.drawable.ic_check_circle_black_18dp)
 //                            .resize(18, 18)
                             .into(viewHolder.valid);
                 } else {
+                    viewHolder.continer.setBackgroundColor(ContextCompat.getColor(viewHolder
+                            .continer.getContext(), R.color.wrong));
                     Picasso.with(viewHolder.valid.getContext())
                             .load(R.drawable.ic_highlight_off_red_500_18dp)
 //                            .resize(18, 18)
@@ -145,11 +140,15 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionViewHol
                 String stateMove = items.get(i).getInstruction();
                 if (Objects.equals(stateMove, "UP") || Objects.equals(stateMove, "DOWN")
                         || Objects.equals(stateMove, "RIGHT") || Objects.equals(stateMove, "LEFT")) {
+                    viewHolder.continer.setBackgroundColor(ContextCompat.getColor(viewHolder
+                            .continer.getContext(), R.color.correct));
                     Picasso.with(viewHolder.valid.getContext())
                             .load(R.drawable.ic_check_circle_black_18dp)
 //                            .resize(18, 18)
                             .into(viewHolder.valid);
                 } else {
+                    viewHolder.continer.setBackgroundColor(ContextCompat.getColor(viewHolder
+                            .continer.getContext(), R.color.wrong));
                     Picasso.with(viewHolder.valid.getContext())
                             .load(R.drawable.ic_highlight_off_red_500_18dp)
 //                            .resize(18, 18)

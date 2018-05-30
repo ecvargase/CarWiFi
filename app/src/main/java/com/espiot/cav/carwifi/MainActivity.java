@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
                         if (items.getInstruction().equals(Config.ON))
                             action = " Alumbrar";
                         if (items.getPeripheral().equals("led"))
-                            actuator = "Bombillos ";
+                            actuator = Config.getInstance().getItems().indexOf(items) + 1 + ". Bombillos ";
                         if (items.getPeripheral().equals("move"))
-                            actuator = " Carrito ";
+                            actuator = Config.getInstance().getItems().indexOf(items) + 1 + ". Carrito ";
                         listView = listView + actuator + " : " + action + "\n\n";
                     }
                     Timber.i("Listado : %s", listView);
